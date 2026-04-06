@@ -29,26 +29,13 @@
         table { width: 100%; border-collapse: collapse; }
         td { padding: 12px 5px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .hidden { display: none; }
-        
-        /* قائمة تسجيل الدخول */
-        .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 3000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: 0.3s; }
-        .login-overlay.active { visibility: visible; opacity: 1; }
-        .login-box { background: #0a0a0a; border: 1px solid var(--gold); border-radius: 30px; padding: 35px 25px; width: 85%; max-width: 350px; text-align: center; }
-        .login-box input { width: 90%; padding: 12px; margin: 12px 0; background: rgba(255,255,255,0.1); border: 1px solid var(--border); border-radius: 30px; color: #fff; font-family: 'Cairo', sans-serif; }
-        .login-box button { background: var(--gold); color: #000; border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; margin-top: 15px; cursor: pointer; width: 95%; font-family: 'Cairo', sans-serif; }
-        .login-box .close-login { color: var(--gold); margin-top: 15px; display: block; cursor: pointer; font-size: 0.9rem; }
-        .user-icon { cursor: pointer; font-size: 1.4rem; color: var(--gold); }
-        .user-name { font-size: 0.8rem; margin-right: 5px; color: var(--gold); }
     </style>
 </head>
 <body>
 <div class="header">
     <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.5rem;"><i class="fas fa-bars-staggered"></i></div>
     <div class="logo-text">HUB HUSSAIN 365</div>
-    <div style="display: flex; align-items: center; gap: 12px;">
-        <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.4rem;"><i class="fas fa-house"></i></div>
-        <div onclick="openLogin()" class="user-icon"><i class="fas fa-user-circle"></i><span id="userNameDisplay" class="user-name"></span></div>
-    </div>
+    <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.4rem;"><i class="fas fa-house"></i></div>
 </div>
 <div class="news-ticker"><div class="ticker-content" id="news-text">جاري التحميل...</div></div>
 <div class="nav-overlay" id="navOverlay">
@@ -58,19 +45,6 @@
     <a href="#" class="nav-link" onclick="showPage('players')">اللاعبين</a>
     <div onclick="toggleMenu()" style="margin-top:40px; color:var(--gold); font-size:2rem;"><i class="fas fa-times-circle"></i></div>
 </div>
-
-<!-- قائمة تسجيل الدخول -->
-<div id="loginOverlay" class="login-overlay">
-    <div class="login-box">
-        <i class="fas fa-user-astronaut" style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;"></i>
-        <h3 style="margin-bottom: 20px;">تسجيل الدخول</h3>
-        <input type="text" id="loginUsername" placeholder="اسم المستخدم">
-        <input type="password" id="loginPassword" placeholder="كلمة المرور">
-        <button onclick="doLogin()">دخول</button>
-        <div class="close-login" onclick="closeLogin()"><i class="fas fa-times"></i> إغلاق</div>
-    </div>
-</div>
-
 <div id="home-page" class="container">
     <div class="glass-card"><div class="card-title">🏆 التصنيف العالمي</div><div id="world-rank"></div></div>
     <div class="glass-card"><div class="card-title">📊 ترتيب الدوري</div><table id="league-table"></table></div>
@@ -83,77 +57,34 @@
     <div class="glass-card"><div class="card-title">🔥 الهدافين</div><div id="scorers-list"></div></div>
 </div>
 <div id="players-page" class="container hidden">
-    <div class="glass-card"><div class="card-title">⭐ قائمة اللاعبين</div>
-        <div class="player-grid" id="players-list"></div>
-    </div>
+    <div class="player-grid" id="players-list"></div>
 </div>
-
 <script>
     const url = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
-    
     function toggleMenu() { document.getElementById('navOverlay').classList.toggle('active'); }
-    function showPage(p) { 
-        ['home', 'matches', 'awards', 'players'].forEach(id => document.getElementById(id + '-page').classList.toggle('hidden', id !== p)); 
-        if(document.getElementById('navOverlay').classList.contains('active')) toggleMenu();
-    }
-    
-    // دوال تسجيل الدخول
-    function openLogin() { document.getElementById('loginOverlay').classList.add('active'); }
-    function closeLogin() { document.getElementById('loginOverlay').classList.remove('active'); }
-    function doLogin() {
-        let username = document.getElementById('loginUsername').value.trim();
-        if(username === "") { alert("الرجاء إدخال اسم المستخدم"); return; }
-        localStorage.setItem("loggedUser", username);
-        document.getElementById('userNameDisplay').innerText = username;
-        closeLogin();
-    }
-    function checkLoginStatus() {
-        let user = localStorage.getItem("loggedUser");
-        if(user) document.getElementById('userNameDisplay').innerText = user;
-    }
-    
+    function showPage(p) { ['home', 'matches', 'awards', 'players'].forEach(id => document.getElementById(id + '-page').classList.toggle('hidden', id !== p)); toggleMenu(); }
     async function updateData() {
         try {
-            const r = await fetch(url); 
-            const t = await r.text();
+            const r = await fetch(url); const t = await r.text();
             const rows = t.split('\n').map(row => row.split(',').map(c => c.replace(/"/g, '').trim()));
-            document.getElementById('news-text').innerText = rows[1]?.[21] || "أهلاً بك في HUB HUSSAIN 365";
-            
+            document.getElementById('news-text').innerText = rows[1][21] || "";
             let wr="", trs="", bl="", sl="", pl="", mx="";
-            // التصنيف العالمي
-            for(let i=1; i<=5; i++) if(rows[i]?.[8]) wr += `<div class="rank-item ${i==1?'top':''}"><span>${i==1?'👑 ':i+'. '} ${rows[i][8]}</span><b>${rows[i][9]}</b></div>`;
-            document.getElementById('world-rank').innerHTML = wr || "<div>لا توجد بيانات</div>";
-            
-            // ترتيب الدوري
-            let teams = rows.slice(1).filter(r => r[0] && r[0] !== "الفريق").map(r => ({ n: r[0], p: r[1], s: parseInt(r[5]) || 0 })).sort((a,b) => b.s - a.s);
+            for(let i=1; i<=5; i++) if(rows[i][8]) wr += `<div class="rank-item ${i==1?'top':''}"><span>${i==1?'👑 ':i+'. '} ${rows[i][8]}</span><b>${rows[i][9]}</b></div>`;
+            document.getElementById('world-rank').innerHTML = wr;
+            let teams = rows.slice(1).map(r => ({ n: r[0], p: r[1], s: parseInt(r[5]) || 0 })).filter(x => x.n && x.n !== "الفريق").sort((a,b) => b.s - a.s);
             teams.forEach((x, i) => { trs += `<tr><td>${i+1}</td><td style="text-align:right">${x.n}</td><td>${x.p}</td><td style="color:var(--gold)">${x.s}</td></tr>`; });
-            document.getElementById('league-table').innerHTML = trs || "<tr><td colspan='4'>لا توجد بيانات</td></tr>";
-            
-            // البالون دور
-            for(let i=1; i<=3; i++) if(rows[i]?.[11]) bl += `<div class="rank-item"><span>🏅 ${rows[i][11]}</span></div>`;
-            document.getElementById('ballon-list').innerHTML = bl || "<div>لا توجد بيانات</div>";
-            
-            // الهدافين
-            for(let i=1; i<=5; i++) if(rows[i]?.[13]) sl += `<div class="rank-item"><span>${rows[i][13]}</span><b>${rows[i][14]} هدف</b></div>`;
-            document.getElementById('scorers-list').innerHTML = sl || "<div>لا توجد بيانات</div>";
-            
-            // بطاقات اللاعبين - مرتبة وجميلة بنفس التصميم الأصلي
-            // اللاعب المميز (Fire Hero)
-            if(rows[1]?.[22]) pl += `<div class="p-card fire-hero"><i class="fas fa-fire" style="color:#ff4444"></i> <b>${rows[1][22]}</b><br><small>النجم المميز</small></div>`;
-            // باقي اللاعبين
-            for(let i=1; i<=10; i++) if(rows[i]?.[24]) pl += `<div class="p-card"><i class="fas fa-user"></i> ${rows[i][24]}</div>`;
-            document.getElementById('players-list').innerHTML = pl || "<div class='p-card' style='grid-column:span 2'>لا توجد بيانات</div>";
-            
-            // المباريات
-            for(let i=1; i<=2; i++) if(rows[i]?.[17]) mx += `<div class="ticket"><b>${rows[i][17]} VS ${rows[i][18]}</b><br><small>${rows[i][19] || "الملعب غير محدد"}</small></div>`;
-            document.getElementById('next-matches').innerHTML = mx || "<div class='ticket'>لا توجد مباريات قادمة</div>";
-            
-        } catch(e) { console.error(e); }
+            document.getElementById('league-table').innerHTML = trs;
+            for(let i=1; i<=3; i++) if(rows[i][11]) bl += `<div class="rank-item"><span>🏅 ${rows[i][11]}</span></div>`;
+            for(let i=1; i<=5; i++) if(rows[i][13]) sl += `<div class="rank-item"><span>${rows[i][13]}</span><b>${rows[i][14]} هدف</b></div>`;
+            document.getElementById('ballon-list').innerHTML = bl; document.getElementById('scorers-list').innerHTML = sl;
+            if(rows[1][22]) pl += `<div class="p-card fire-hero">🔥 <b>${rows[1][22]}</b></div>`;
+            for(let i=1; i<=10; i++) if(rows[i][24]) pl += `<div class="p-card">👤 ${rows[i][24]}</div>`;
+            document.getElementById('players-list').innerHTML = pl;
+            for(let i=1; i<=2; i++) if(rows[i][17]) mx += `<div class="ticket"><b>${rows[i][17]} VS ${rows[i][18]}</b><br><small>${rows[i][19]}</small></div>`;
+            document.getElementById('next-matches').innerHTML = mx;
+        } catch(e) {}
     }
-    
-    checkLoginStatus();
-    updateData(); 
-    setInterval(updateData, 20000);
+    updateData(); setInterval(updateData, 20000);
 </script>
 </body>
 </html>
