@@ -2,500 +2,158 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>HUB HUSSAIN 365 | منصة اللاعبين</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUB HUSSAIN 365</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --gold: #ffd700;
-            --gold-dark: #daa520;
-            --bg-dark: #0a0c10;
-            --card-bg: #14171c;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --fire: #ff4d4d;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* شريط الأخبار المحسن */
-        .news-ticker {
-            background: linear-gradient(90deg, #0a0c10, #1a1e26, #0a0c10);
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            height: 42px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            position: sticky;
-            top: 70px;
-            z-index: 999;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        .ticker-label {
-            background: var(--gold);
-            color: #000;
-            font-weight: bold;
-            padding: 0 18px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            z-index: 2;
-        }
-        .ticker-track {
-            flex: 1;
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-        }
-        .ticker-content {
-            display: inline-block;
-            animation: ticker 25s linear infinite;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--gold);
-            padding-left: 20px;
-            letter-spacing: 0.5px;
-        }
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* الهيدر */
-        .header {
-            background: rgba(10, 12, 16, 0.95);
-            backdrop-filter: blur(12px);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--gold);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo-text {
-            font-weight: 900;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #fff, var(--gold), #ffb347);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        /* القائمة الجانبية */
-        .nav-overlay {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            max-width: 320px;
-            height: 100%;
-            background: rgba(8, 8, 12, 0.98);
-            backdrop-filter: blur(25px);
-            z-index: 2000;
-            transition: 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 25px;
-            border-left: 1px solid var(--gold);
-        }
-        .nav-overlay.active {
-            right: 0;
-        }
-        .nav-link {
-            font-size: 1.6rem;
-            color: #f0f0f0;
-            text-decoration: none;
-            margin: 20px 0;
-            font-weight: 700;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid rgba(255,215,0,0.2);
-            padding-bottom: 10px;
-        }
-        .nav-link i { width: 35px; color: var(--gold); }
-        .close-menu {
-            margin-top: 50px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 2rem;
-            color: var(--gold);
-        }
-
-        /* الحاوية */
-        .container {
-            max-width: 550px;
-            margin: auto;
-            padding: 18px 16px 80px 16px;
-        }
-
-        /* البطاقات العامة */
-        .glass-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 20px;
-            margin-bottom: 24px;
-            backdrop-filter: blur(4px);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card-title {
-            color: var(--gold);
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-right: 3px solid var(--gold);
-            padding-right: 12px;
-        }
-
-        /* ترتيب الفرق */
-        .rank-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 15px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 16px;
-            margin-bottom: 10px;
-            align-items: center;
-            font-weight: 500;
-        }
-        .rank-item.top {
-            border-right: 4px solid var(--gold);
-            background: linear-gradient(90deg, rgba(212,175,55,0.12), transparent);
-        }
-
-        /* === بطاقات اللاعبين (تصميم فيفا) === */
-        .player-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-        .player-card-fifa {
-            background: linear-gradient(145deg, #1a1e26, #0f1117);
-            border-radius: 20px;
-            border: 1px solid rgba(255,215,0,0.3);
-            padding: 16px 12px 12px 12px;
-            text-align: center;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-        .player-card-fifa:hover {
-            transform: translateY(-6px);
-            border-color: var(--gold);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 12px rgba(255,215,0,0.3);
-        }
-        .player-rarity {
-            position: absolute;
-            top: 8px;
-            left: 12px;
-            font-size: 1.3rem;
-            opacity: 0.8;
-        }
-        .player-name {
-            font-size: 1.25rem;
-            font-weight: 800;
-            margin: 12px 0 6px;
-            background: linear-gradient(135deg, #fff, #e0e0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .player-position {
-            display: inline-block;
-            background: var(--gold-dark);
-            color: #000;
-            font-weight: bold;
-            padding: 3px 12px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            margin-top: 6px;
-            letter-spacing: 0.5px;
-        }
-        .player-stats {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            margin-top: 16px;
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-        .player-stats span i {
-            color: var(--gold);
-            margin-left: 4px;
-        }
-        .fire-hero {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #2a1a1a, #1e1217);
-            border: 2px solid #ff6666;
-            box-shadow: 0 0 15px rgba(255,80,80,0.4);
-        }
-        .fire-hero .player-name {
-            background: linear-gradient(135deg, #ffcc88, #ff884d);
-            -webkit-background-clip: text;
-        }
-
-        /* تذكرة المباراة */
-        .ticket {
-            background: #101217;
-            padding: 16px;
-            border-radius: 24px;
-            border-left: 5px solid var(--gold);
-            text-align: center;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        td {
-            padding: 12px 6px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .hidden {
-            display: none;
-        }
-        .icon-gold {
-            color: var(--gold);
-        }
-        button, .nav-link, .close-menu, .player-card-fifa {
-            cursor: pointer;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        :root { --gold: #ffd700; --bg: #000; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
+        body { background-color: var(--bg); color: #fff; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; }
+        .news-ticker { background: rgba(212, 175, 55, 0.05); border-bottom: 1px solid var(--gold); height: 30px; display: flex; align-items: center; overflow: hidden; position: sticky; top: 70px; z-index: 999; backdrop-filter: blur(5px); }
+        .ticker-content { display: inline-block; animation: ticker 30s linear infinite; color: var(--gold); font-size: 0.8rem; font-weight: bold; white-space: nowrap; padding-right: 100%; }
+        @keyframes ticker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .header { background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
+        .logo-text { font-weight: 900; font-size: 1.3rem; background: linear-gradient(to right, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-overlay { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 2000; transition: 0.4s; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .nav-overlay.active { right: 0; }
+        .nav-link { font-size: 1.8rem; color: #fff; text-decoration: none; margin: 15px; font-weight: 900; }
+        .container { max-width: 500px; margin: auto; padding: 20px; }
+        .glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 25px; margin-bottom: 25px; }
+        .card-title { color: var(--gold); font-size: 1.1rem; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .rank-item { display: flex; justify-content: space-between; padding: 14px; background: rgba(255,255,255,0.02); border-radius: 12px; margin-bottom: 8px; align-items: center; }
+        .rank-item.top { border-right: 3px solid var(--gold); background: linear-gradient(90deg, rgba(212,175,55,0.1), transparent); }
+        .player-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .p-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; cursor: pointer; }
+        .fire-hero { grid-column: span 2; border: 2px solid #ff4444; background: rgba(255,0,0,0.08); }
+        .ticket { background: #111; padding: 18px; border-radius: 15px; border-left: 4px solid var(--gold); text-align: center; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; }
+        td { padding: 12px 5px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hidden { display: none; }
+        
+        /* قائمة تسجيل الدخول */
+        .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); z-index: 3000; display: flex; justify-content: center; align-items: center; visibility: hidden; opacity: 0; transition: 0.3s; }
+        .login-overlay.active { visibility: visible; opacity: 1; }
+        .login-box { background: #0a0a0a; border: 1px solid var(--gold); border-radius: 30px; padding: 35px 25px; width: 85%; max-width: 350px; text-align: center; }
+        .login-box input { width: 90%; padding: 12px; margin: 12px 0; background: rgba(255,255,255,0.1); border: 1px solid var(--border); border-radius: 30px; color: #fff; font-family: 'Cairo', sans-serif; }
+        .login-box button { background: var(--gold); color: #000; border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; margin-top: 15px; cursor: pointer; width: 95%; font-family: 'Cairo', sans-serif; }
+        .login-box .close-login { color: var(--gold); margin-top: 15px; display: block; cursor: pointer; font-size: 0.9rem; }
+        .user-icon { cursor: pointer; font-size: 1.4rem; color: var(--gold); }
+        .user-name { font-size: 0.8rem; margin-right: 5px; color: var(--gold); }
     </style>
 </head>
 <body>
-
 <div class="header">
-    <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.7rem;"><i class="fas fa-bars-staggered"></i></div>
+    <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.5rem;"><i class="fas fa-bars-staggered"></i></div>
     <div class="logo-text">HUB HUSSAIN 365</div>
-    <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.5rem;"><i class="fas fa-house-chimney"></i></div>
-</div>
-
-<div class="news-ticker">
-    <div class="ticker-label"><i class="fas fa-newspaper"></i> حصري</div>
-    <div class="ticker-track">
-        <div class="ticker-content" id="news-text">⚡ جاري تحميل آخر الأخبار الرياضية...</div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.4rem;"><i class="fas fa-house"></i></div>
+        <div onclick="openLogin()" class="user-icon"><i class="fas fa-user-circle"></i><span id="userNameDisplay" class="user-name"></span></div>
     </div>
 </div>
-
+<div class="news-ticker"><div class="ticker-content" id="news-text">جاري التحميل...</div></div>
 <div class="nav-overlay" id="navOverlay">
-    <a href="#" class="nav-link" onclick="showPage('home')"><i class="fas fa-tachometer-alt"></i> الرئيسية</a>
-    <a href="#" class="nav-link" onclick="showPage('matches')"><i class="fas fa-calendar-check"></i> المباريات</a>
-    <a href="#" class="nav-link" onclick="showPage('awards')"><i class="fas fa-trophy"></i> الجوائز</a>
-    <a href="#" class="nav-link" onclick="showPage('players')"><i class="fas fa-users"></i> اللاعبين</a>
-    <div onclick="toggleMenu()" class="close-menu"><i class="fas fa-times-circle"></i> إغلاق</div>
+    <a href="#" class="nav-link" onclick="showPage('home')">الرئيسية</a>
+    <a href="#" class="nav-link" onclick="showPage('matches')">المباريات</a>
+    <a href="#" class="nav-link" onclick="showPage('awards')">الجوائز</a>
+    <a href="#" class="nav-link" onclick="showPage('players')">اللاعبين</a>
+    <div onclick="toggleMenu()" style="margin-top:40px; color:var(--gold); font-size:2rem;"><i class="fas fa-times-circle"></i></div>
 </div>
 
-<!-- الصفحات -->
+<!-- قائمة تسجيل الدخول -->
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+        <i class="fas fa-user-astronaut" style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;"></i>
+        <h3 style="margin-bottom: 20px;">تسجيل الدخول</h3>
+        <input type="text" id="loginUsername" placeholder="اسم المستخدم">
+        <input type="password" id="loginPassword" placeholder="كلمة المرور">
+        <button onclick="doLogin()">دخول</button>
+        <div class="close-login" onclick="closeLogin()"><i class="fas fa-times"></i> إغلاق</div>
+    </div>
+</div>
+
 <div id="home-page" class="container">
-    <div class="glass-card">
-        <div class="card-title"><i class="fas fa-globe-asia"></i> التصنيف العالمي TOP5</div>
-        <div id="world-rank"></div>
-    </div>
-    <div class="glass-card">
-        <div class="card-title"><i class="fas fa-chart-line"></i> ترتيب الدوري الممتاز</div>
-        <table id="league-table">换</table>
-    </div>
+    <div class="glass-card"><div class="card-title">🏆 التصنيف العالمي</div><div id="world-rank"></div></div>
+    <div class="glass-card"><div class="card-title">📊 ترتيب الدوري</div><table id="league-table"></table></div>
 </div>
-
 <div id="matches-page" class="container hidden">
-    <div class="glass-card">
-        <div class="card-title"><i class="fas fa-futbol"></i> المباريات القادمة</div>
-        <div id="next-matches"></div>
-    </div>
+    <div class="glass-card"><div class="card-title">⚽ المباريات القادمة</div><div id="next-matches"></div></div>
 </div>
-
 <div id="awards-page" class="container hidden">
-    <div class="glass-card">
-        <div class="card-title"><i class="fas fa-crown"></i> الكرة الذهبية (بالون دور)</div>
-        <div id="ballon-list"></div>
-    </div>
-    <div class="glass-card">
-        <div class="card-title"><i class="fas fa-fire"></i> ترتيب الهدافين</div>
-        <div id="scorers-list"></div>
-    </div>
+    <div class="glass-card"><div class="card-title">👑 البالون دور</div><div id="ballon-list"></div></div>
+    <div class="glass-card"><div class="card-title">🔥 الهدافين</div><div id="scorers-list"></div></div>
 </div>
-
 <div id="players-page" class="container hidden">
-    <div class="glass-card">
-        <div class="card-title"><i class="fas fa-id-card"></i> بطاقات اللاعبين – إصدار FIFA</div>
+    <div class="glass-card"><div class="card-title">⭐ قائمة اللاعبين</div>
         <div class="player-grid" id="players-list"></div>
     </div>
 </div>
 
 <script>
-    const CSV_URL = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
-
-    async function fetchSheetData() {
+    const url = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
+    
+    function toggleMenu() { document.getElementById('navOverlay').classList.toggle('active'); }
+    function showPage(p) { 
+        ['home', 'matches', 'awards', 'players'].forEach(id => document.getElementById(id + '-page').classList.toggle('hidden', id !== p)); 
+        if(document.getElementById('navOverlay').classList.contains('active')) toggleMenu();
+    }
+    
+    // دوال تسجيل الدخول
+    function openLogin() { document.getElementById('loginOverlay').classList.add('active'); }
+    function closeLogin() { document.getElementById('loginOverlay').classList.remove('active'); }
+    function doLogin() {
+        let username = document.getElementById('loginUsername').value.trim();
+        if(username === "") { alert("الرجاء إدخال اسم المستخدم"); return; }
+        localStorage.setItem("loggedUser", username);
+        document.getElementById('userNameDisplay').innerText = username;
+        closeLogin();
+    }
+    function checkLoginStatus() {
+        let user = localStorage.getItem("loggedUser");
+        if(user) document.getElementById('userNameDisplay').innerText = user;
+    }
+    
+    async function updateData() {
         try {
-            const response = await fetch(CSV_URL);
-            const csvText = await response.text();
-            const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.replace(/["']/g, '').trim()));
-            return rows;
-        } catch (err) {
-            console.error("خطأ في جلب البيانات", err);
-            return [];
-        }
+            const r = await fetch(url); 
+            const t = await r.text();
+            const rows = t.split('\n').map(row => row.split(',').map(c => c.replace(/"/g, '').trim()));
+            document.getElementById('news-text').innerText = rows[1]?.[21] || "أهلاً بك في HUB HUSSAIN 365";
+            
+            let wr="", trs="", bl="", sl="", pl="", mx="";
+            // التصنيف العالمي
+            for(let i=1; i<=5; i++) if(rows[i]?.[8]) wr += `<div class="rank-item ${i==1?'top':''}"><span>${i==1?'👑 ':i+'. '} ${rows[i][8]}</span><b>${rows[i][9]}</b></div>`;
+            document.getElementById('world-rank').innerHTML = wr || "<div>لا توجد بيانات</div>";
+            
+            // ترتيب الدوري
+            let teams = rows.slice(1).filter(r => r[0] && r[0] !== "الفريق").map(r => ({ n: r[0], p: r[1], s: parseInt(r[5]) || 0 })).sort((a,b) => b.s - a.s);
+            teams.forEach((x, i) => { trs += `<tr><td>${i+1}</td><td style="text-align:right">${x.n}</td><td>${x.p}</td><td style="color:var(--gold)">${x.s}</td></tr>`; });
+            document.getElementById('league-table').innerHTML = trs || "<tr><td colspan='4'>لا توجد بيانات</td></tr>";
+            
+            // البالون دور
+            for(let i=1; i<=3; i++) if(rows[i]?.[11]) bl += `<div class="rank-item"><span>🏅 ${rows[i][11]}</span></div>`;
+            document.getElementById('ballon-list').innerHTML = bl || "<div>لا توجد بيانات</div>";
+            
+            // الهدافين
+            for(let i=1; i<=5; i++) if(rows[i]?.[13]) sl += `<div class="rank-item"><span>${rows[i][13]}</span><b>${rows[i][14]} هدف</b></div>`;
+            document.getElementById('scorers-list').innerHTML = sl || "<div>لا توجد بيانات</div>";
+            
+            // بطاقات اللاعبين - مرتبة وجميلة بنفس التصميم الأصلي
+            // اللاعب المميز (Fire Hero)
+            if(rows[1]?.[22]) pl += `<div class="p-card fire-hero"><i class="fas fa-fire" style="color:#ff4444"></i> <b>${rows[1][22]}</b><br><small>النجم المميز</small></div>`;
+            // باقي اللاعبين
+            for(let i=1; i<=10; i++) if(rows[i]?.[24]) pl += `<div class="p-card"><i class="fas fa-user"></i> ${rows[i][24]}</div>`;
+            document.getElementById('players-list').innerHTML = pl || "<div class='p-card' style='grid-column:span 2'>لا توجد بيانات</div>";
+            
+            // المباريات
+            for(let i=1; i<=2; i++) if(rows[i]?.[17]) mx += `<div class="ticket"><b>${rows[i][17]} VS ${rows[i][18]}</b><br><small>${rows[i][19] || "الملعب غير محدد"}</small></div>`;
+            document.getElementById('next-matches').innerHTML = mx || "<div class='ticket'>لا توجد مباريات قادمة</div>";
+            
+        } catch(e) { console.error(e); }
     }
-
-    function toggleMenu() {
-        document.getElementById('navOverlay').classList.toggle('active');
-    }
-
-    function showPage(pageId) {
-        const pages = ['home', 'matches', 'awards', 'players'];
-        pages.forEach(id => {
-            const el = document.getElementById(id + '-page');
-            if (el) el.classList.toggle('hidden', id !== pageId);
-        });
-        if (document.getElementById('navOverlay').classList.contains('active')) toggleMenu();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    async function updateDashboard() {
-        const rows = await fetchSheetData();
-        if (!rows.length) return;
-
-        // 1. شريط الأخبار
-        const newsRow = rows[1] && rows[1][21] ? rows[1][21] : "📢 لا توجد أخبار عاجلة حالياً";
-        const newsElem = document.getElementById('news-text');
-        if (newsElem) {
-            newsElem.innerHTML = `🔥 ${newsRow}  •  🏆 آخر المستجدات  •  ${newsRow}  •  ⚡ تحديث مباشر  •  `;
-            // تكرار النص لحركة لا نهائية
-            newsElem.innerHTML += newsElem.innerHTML;
-        }
-
-        // 2. التصنيف العالمي (الأعمدة 8 و 9)
-        let worldRankHtml = "";
-        for (let i = 1; i <= 5; i++) {
-            if (rows[i] && rows[i][8]) {
-                const isTop = (i === 1);
-                worldRankHtml += `<div class="rank-item ${isTop ? 'top' : ''}">
-                                    <span>${isTop ? '👑' : i+'.'} ${rows[i][8]}</span>
-                                    <b>${rows[i][9] || '0'}</b>
-                                  </div>`;
-            }
-        }
-        document.getElementById('world-rank').innerHTML = worldRankHtml || "<div>لا توجد بيانات</div>";
-
-        // 3. ترتيب الدوري (الفريق – نقاط – فارق الأهداف)
-        let leagueHtml = "";
-        let teams = [];
-        for (let i = 1; i < rows.length; i++) {
-            if (rows[i][0] && rows[i][0] !== "الفريق" && rows[i][1]) {
-                let points = parseInt(rows[i][5]) || 0;
-                teams.push({ name: rows[i][0], points: rows[i][1], goalDiff: points });
-            }
-        }
-        teams.sort((a,b) => b.goalDiff - a.goalDiff);
-        teams.slice(0, 12).forEach((team, idx) => {
-            leagueHtml += `<tr>
-                            <td>${idx+1}</td>
-                            <td style="text-align:right; font-weight:bold;">${team.name}</td>
-                            <td>${team.points}</td>
-                            <td style="color:var(--gold);">${team.goalDiff}</td>
-                           </tr>`;
-        });
-        document.getElementById('league-table').innerHTML = leagueHtml || "<tr><td colspan='4'>لا توجد فرق</td></tr>";
-
-        // 4. بالون دور (أعمدة 11)
-        let ballonHtml = "";
-        for (let i = 1; i <= 3; i++) {
-            if (rows[i] && rows[i][11]) {
-                ballonHtml += `<div class="rank-item"><span>🏅 ${rows[i][11]}</span></div>`;
-            }
-        }
-        document.getElementById('ballon-list').innerHTML = ballonHtml || "<div>لا توجد قائمة</div>";
-
-        // 5. الهدافين (العمود 13 اسم، 14 هدف)
-        let scorersHtml = "";
-        for (let i = 1; i <= 6; i++) {
-            if (rows[i] && rows[i][13]) {
-                scorersHtml += `<div class="rank-item"><span>⚽ ${rows[i][13]}</span><b>${rows[i][14] || '0'} هدف</b></div>`;
-            }
-        }
-        document.getElementById('scorers-list').innerHTML = scorersHtml || "<div>لا يوجد هدافون</div>";
-
-        // 6. المباريات القادمة (أعمدة 17,18,19)
-        let matchesHtml = "";
-        for (let i = 1; i <= 3; i++) {
-            if (rows[i] && rows[i][17]) {
-                matchesHtml += `<div class="ticket">
-                                    <i class="fas fa-clock icon-gold"></i> <b>${rows[i][17]} 🆚 ${rows[i][18]}</b><br>
-                                    <small><i class="fas fa-map-marker-alt"></i> ${rows[i][19] || "الملعب غير محدد"}</small>
-                                </div>`;
-            }
-        }
-        document.getElementById('next-matches').innerHTML = matchesHtml || "<div class='ticket'>لا توجد مباريات قادمة</div>";
-
-        // 7. بطاقات اللاعبين (تصميم فيفا قوي) العمود 22 نجم حار، العمود 24 أسماء لاعبين
-        let playersHtml = "";
-        // لاعب خاص (نجم النار)
-        if (rows[1] && rows[1][22]) {
-            playersHtml += `<div class="player-card-fifa fire-hero">
-                                <div class="player-rarity"><i class="fas fa-fire" style="color:#ff884d;"></i> HERO</div>
-                                <div class="player-name">🔥 ${rows[1][22]}</div>
-                                <div class="player-position">CF • أسطورة</div>
-                                <div class="player-stats">
-                                    <span><i class="fas fa-futbol"></i> 96</span>
-                                    <span><i class="fas fa-bolt"></i> 94</span>
-                                    <span><i class="fas fa-shield-alt"></i> 88</span>
-                                </div>
-                            </div>`;
-        }
-        // باقي اللاعبين (حتى 8 لاعبين)
-        let playerCount = 0;
-        for (let i = 1; i <= 12; i++) {
-            if (rows[i] && rows[i][24] && playerCount < 10) {
-                const playerName = rows[i][24];
-                const position = (i % 2 === 0) ? "MID" : "ATT";
-                const rating = 82 + (i % 15);
-                playersHtml += `<div class="player-card-fifa">
-                                    <div class="player-rarity"><i class="fas fa-star" style="color:var(--gold);"></i></div>
-                                    <div class="player-name">${playerName}</div>
-                                    <div class="player-position">${position}</div>
-                                    <div class="player-stats">
-                                        <span><i class="fas fa-futbol"></i> ${rating}</span>
-                                        <span><i class="fas fa-bolt"></i> ${rating-3}</span>
-                                        <span><i class="fas fa-shield-alt"></i> ${rating-5}</span>
-                                    </div>
-                                </div>`;
-                playerCount++;
-            }
-        }
-        if (playersHtml === "") playersHtml = "<div class='player-card-fifa' style='grid-column:span 2;'>⚠️ لا توجد بيانات لاعبين</div>";
-        document.getElementById('players-list').innerHTML = playersHtml;
-    }
-
-    // تحميل فوري وتحديث كل 20 ثانية
-    updateDashboard();
-    setInterval(updateDashboard, 20000);
+    
+    checkLoginStatus();
+    updateData(); 
+    setInterval(updateData, 20000);
 </script>
 </body>
 </html>
