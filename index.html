@@ -3,140 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUB HUSSAIN 365 - PRO LEAGUE</title>
+    <title>HUB HUSSAIN 365</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        :root { --gold: #ffd700; --bg: #000000; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
-        
+        :root { --gold: #ffd700; --bg: #000; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
         body { background-color: var(--bg); color: #fff; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; }
-
-        /* شريط الأخبار الملكي */
-        .news-ticker { background: rgba(212, 175, 55, 0.05); border-bottom: 1px solid var(--gold); height: 30px; display: flex; align-items: center; overflow: hidden; position: sticky; top: 70px; z-index: 999; backdrop-filter: blur(5px); }
-        .ticker-content { display: inline-block; animation: ticker 30s linear infinite; color: var(--gold); font-size: 0.8rem; font-weight: bold; white-space: nowrap; padding-right: 100%; }
-        @keyframes ticker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
         .header { background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
         .logo-text { font-weight: 900; font-size: 1.3rem; background: linear-gradient(to right, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* تصليح شريط الأخبار */
+        .news-ticker { background: rgba(212, 175, 55, 0.05); border-bottom: 1px solid var(--gold); height: 35px; display: flex; align-items: center; overflow: hidden; position: sticky; top: 60px; z-index: 999; }
+        .ticker-content { display: inline-block; white-space: nowrap; animation: ticker 20s linear infinite; color: var(--gold); font-size: 0.9rem; font-weight: bold; padding-right: 100%; }
+        @keyframes ticker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
-        .nav-overlay { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 2000; transition: 0.4s; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .nav-overlay.active { right: 0; }
-        .nav-link { font-size: 1.8rem; color: #fff; text-decoration: none; margin: 15px; font-weight: 900; }
-        .nav-link:hover { color: var(--gold); }
+        .container { max-width: 500px; margin: auto; padding: 20px; }
+        
+        /* Maviga Style - ستايل مافيغا */
+        .player-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .p-card { 
+            background: linear-gradient(145deg, #121212, #080808); 
+            border: 1px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 18px; padding: 20px 10px; text-align: center; 
+            transition: 0.4s; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .p-card i { font-size: 1.6rem; color: var(--gold); display: block; margin-bottom: 8px; filter: drop-shadow(0 0 5px var(--gold)); }
+        .p-card span { font-weight: 700; font-size: 0.9rem; display: block; }
+        .fire-hero { grid-column: span 2; border-color: #ff4444; background: linear-gradient(145deg, #1a0505, #000); }
+        .fire-hero i { color: #ff4444; }
 
-        .container { max-width: 500px; margin: auto; padding: 20px; min-height: 80vh; }
-        .glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 25px; margin-bottom: 25px; backdrop-filter: blur(10px); }
-        .card-title { color: var(--gold); font-size: 1.1rem; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-
-        /* التاج الذهبي للمتصدر */
-        .rank-item { display: flex; justify-content: space-between; padding: 14px; background: rgba(255,255,255,0.02); border-radius: 12px; margin-bottom: 8px; align-items: center; border-right: 3px solid transparent; }
-        .rank-item.top { border-right-color: var(--gold); background: linear-gradient(90deg, rgba(212,175,55,0.1), transparent); }
-        .crown { color: var(--gold); text-shadow: 0 0 10px var(--gold); font-size: 1.2rem; }
-
-        /* بطاقات اللاعبين */
-        .player-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .p-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; cursor: pointer; transition: 0.3s; display: flex; flex-direction: row-reverse; justify-content: center; align-items: center; gap: 8px; font-weight: bold;}
-        .p-card:hover { border-color: var(--gold); }
-        .fire-hero { grid-column: span 2; border: 2px solid #ff4444; background: rgba(255,0,0,0.08); box-shadow: 0 0 15px rgba(255,0,0,0.2); flex-direction: row;}
-
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
-        .modal-box { background: #111; border: 2px solid var(--gold); width: 80%; padding: 35px; border-radius: 25px; text-align: center; }
-
-        .ticket { background: #111; padding: 18px; border-radius: 15px; border-left: 4px solid var(--gold); text-align: center; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 5px; }
-        td { padding: 12px 5px; background: rgba(255,255,255,0.02); text-align: center; font-weight: bold; }
+        .glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 15px; margin-bottom: 15px; }
+        .card-title { color: var(--gold); font-weight: 900; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.5rem;"><i class="fas fa-bars-staggered"></i></div>
+    <div onclick="toggleMenu()" style="color:var(--gold); font-size:1.5rem;"><i class="fas fa-bars-staggered"></i></div>
     <div class="logo-text">HUB HUSSAIN 365</div>
-    <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.4rem;"><i class="fas fa-house"></i></div>
+    <div onclick="showPage('home')" style="color:var(--gold); font-size:1.4rem;"><i class="fas fa-house"></i></div>
 </div>
 
-<div class="news-ticker"><div class="ticker-content" id="news-text">جاري تحميل الأخبار الملكية...</div></div>
-
-<div class="nav-overlay" id="navOverlay">
-    <a href="#" class="nav-link" onclick="showPage('home')">الرئيسية <i class="fas fa-home-alt"></i></a>
-    <a href="#" class="nav-link" onclick="showPage('matches')">المباريات <i class="fas fa-futbol"></i></a>
-    <a href="#" class="nav-link" onclick="showPage('awards')">الجوائز <i class="fas fa-award"></i></a>
-    <a href="#" class="nav-link" onclick="showPage('players')">اللاعبين <i class="fas fa-users"></i></a>
-    <div onclick="toggleMenu()" style="margin-top:40px; color:var(--gold); font-size:2.2rem; cursor:pointer;"><i class="fas fa-times-circle"></i></div>
-</div>
+<div class="news-ticker"><div class="ticker-content" id="news-text">تحميل الأخبار...</div></div>
 
 <div id="home-page" class="container">
-    <div class="glass-card"><div class="card-title"><i class="fas fa-crown"></i> التصنيف العالمي</div><div id="world-rank"></div></div>
-    <div class="glass-card"><div class="card-title"><i class="fas fa-list-ol"></i> ترتيب الدوري</div><table id="league-table"></table></div>
+    <div class="glass-card">
+        <div class="card-title">🏆 ترتيب الفرق</div>
+        <div id="league-table"></div>
+    </div>
+    <div class="glass-card">
+        <div class="card-title">⭐ أفضل اللاعبين</div>
+        <div class="player-grid" id="players-list"></div>
+    </div>
 </div>
-
-<div id="matches-page" class="container hidden">
-    <div class="glass-card"><div class="card-title"><i class="fas fa-ticket-alt"></i> جدول المباريات</div><div id="next-matches"></div></div>
-</div>
-
-<div id="awards-page" class="container hidden">
-    <div class="glass-card"><div class="card-title"><i class="fas fa-medal"></i> مرشحي البالون دور</div><div id="ballon-list"></div></div>
-    <div class="glass-card"><div class="card-title"><i class="fas fa-fire"></i> صراع الهدافين</div><div id="scorers-list"></div></div>
-    <div class="glass-card" style="background:none; border:none;"><div class="card-title"><i class="fas fa-star"></i> رجل الجولة</div><div id="motm-list"></div></div>
-</div>
-
-<div id="players-page" class="container">
-    <div class="player-grid" id="players-list"></div>
-</div>
-
-<div class="modal" id="pModal" onclick="this.style.display='none'"><div class="modal-box"><h2 id="mName" style="color:var(--gold)"></h2><p id="mInfo" style="line-height:1.8"></p></div></div>
 
 <script>
-    
     const url = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
-
-    function toggleMenu() { document.getElementById('navOverlay').classList.toggle('active'); }
-    function showPage(p) {
-        ['home', 'matches', 'awards', 'players'].forEach(id => document.getElementById(id + '-page').classList.toggle('hidden', id !== p));
-        if(document.getElementById('navOverlay').classList.contains('active')) toggleMenu();
-        window.scrollTo(0,0);
-    }
-    function openP(n, i) { document.getElementById('mName').innerText = n; document.getElementById('mInfo').innerText = i; document.getElementById('pModal').style.display = 'flex'; }
 
     async function updateData() {
         try {
-            const r = await fetch(url);
-            const t = await r.text();
+            const r = await fetch(url); const t = await r.text();
             const rows = t.split('\n').map(row => row.split(',').map(c => c.replace(/"/g, '').trim()));
+            
+            // 1. شريط الأخبار (يقرأ من عمود محدد أو نص ثابت)
+            document.getElementById('news-text').innerText = "🔥 أهلاً بكم في HUB HUSSAIN 365 - تابعوا آخر النتائج والإحصائيات أولاً بأول 🔥";
 
-            document.getElementById('news-text').innerText = rows[1][21] || "لا توجد أخبار حالياً";
-
-            // التصنيف والدوري مع التاج الملكي
-            let wr="", trs="";
-            for(let i=1; i<=5; i++) if(rows[i][8]) wr += `<div class="rank-item ${i==1?'top':''}"><span>${i==1?'<i class="fas fa-crown crown"></i> ':i+'.'} ${rows[i][8]}</span><b style="color:var(--gold)">${rows[i][9]}</b></div>`;
-            document.getElementById('world-rank').innerHTML = wr;
-
-            let teams = rows.slice(1).map(r => ({ n: r[0], p: r[1], s: parseInt(r[5]) || 0 })).filter(x => x.n && x.n !== "الفريق").sort((a,b) => b.s - a.s);
-            teams.forEach((x, i) => { trs += `<tr><td>${i==0?'<i class="fas fa-crown crown"></i>':i+1}</td><td style="text-align:right">${x.n}</td><td>${x.p}</td><td style="color:var(--gold)">${x.s}</td></tr>`; });
+            // 2. ترتيب الفرق (العمود A و B)
+            let trs = "";
+            for(let i=1; i<=6; i++) {
+                if(rows[i][0]) trs += `<div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #222;"><span>${rows[i][0]}</span><span style="color:var(--gold)">${rows[i][1] || 0} لعب</span></div>`;
+            }
             document.getElementById('league-table').innerHTML = trs;
 
-            // الجوائز (البلندور + الهدافين + MOTM)
-            let bl="", sl="", motm="", pl="";
-            for(let i=1; i<=3; i++) if(rows[i][11]) bl += `<div class="rank-item"><span><i class="fas fa-award" style="color:var(--gold)"></i> ${rows[i][11]}</span></div>`;
-            for(let i=1; i<=5; i++) if(rows[i][13]) sl += `<div class="rank-item"><span>${rows[i][13]}</span><b style="background:var(--gold); color:#000; padding:2px 8px; border-radius:5px;">${rows[i][14]} هدف</b></div>`;
-            if(rows[1][16]) motm = `<div class="p-card" style="border:2px solid var(--gold); background:rgba(212,175,55,0.05); flex-direction: row;">🏅 <b>MOTM</b><br><span style="font-size:1.8rem; font-weight:900;">${rows[1][16]}</span></div>`;
-            
-            document.getElementById('ballon-list').innerHTML = bl;
-            document.getElementById('scorers-list').innerHTML = sl;
-            document.getElementById('motm-list').innerHTML = motm;
-
-            // قسم اللاعبين
-            if(rows[1][22]) pl += `<div class="p-card fire-hero" onclick="openP('${rows[1][22]}', '${rows[1][23]}')"><i class="fas fa-fire"></i> <span>${rows[1][22]}</span></div>`;
-            for(let i=1; i<=10; i++) if(rows[i][24]) pl += `<div class="p-card" onclick="openP('${rows[i][24]}', '${rows[i][25]}')"><i class="fas fa-user-shield" style="color:var(--gold)"></i> <span>${rows[i][24]}</span></div>`;
+            // 3. اللاعبين (العمود Y يبدأ من السطر 2)
+            let pl = "";
+            for(let i=1; i<=11; i++) {
+                let name = rows[i][24]; // عمود Y هو رقم 24
+                if(name && name !== "") {
+                    let isCaptain = (name.includes("حسين"));
+                    pl += `<div class="p-card ${isCaptain?'fire-hero':''}">
+                        <i class="fas ${isCaptain?'fa-crown':'fa-user-shield'}"></i>
+                        <span>${name}</span>
+                    </div>`;
+                }
+            }
             document.getElementById('players-list').innerHTML = pl;
 
-            // المباريات
-            let mx = ""; for(let i=1; i<=2; i++) if(rows[i][17]) mx += `<div class="ticket"><small style="color:var(--gold)">${rows[i][20]}</small><br><b>${rows[i][17]} VS ${rows[i][18]}</b><br><small style="color:#666">${rows[i][19]}</small></div>`;
-            document.getElementById('next-matches').innerHTML = mx;
-        } catch(e) {}
+        } catch(e) { console.log(e); }
     }
-    updateData(); setInterval(updateData, 20000);
+    
+    updateData();
+    setInterval(updateData, 15000);
 </script>
 </body>
 </html>
