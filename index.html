@@ -3,88 +3,503 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUB HUSSAIN 365</title>
+    <title>HUB HUSSAIN 365 - الدوري الذهبي</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        :root { --gold: #ffd700; --bg: #000; --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1); }
-        body { background-color: var(--bg); color: #fff; font-family: 'Cairo', sans-serif; margin: 0; overflow-x: hidden; }
-        .news-ticker { background: rgba(212, 175, 55, 0.05); border-bottom: 1px solid var(--gold); height: 30px; display: flex; align-items: center; overflow: hidden; position: sticky; top: 70px; z-index: 999; backdrop-filter: blur(5px); }
-        .ticker-content { display: inline-block; animation: ticker 30s linear infinite; color: var(--gold); font-size: 0.8rem; font-weight: bold; white-space: nowrap; padding-right: 100%; }
-        @keyframes ticker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        .header { background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
-        .logo-text { font-weight: 900; font-size: 1.3rem; background: linear-gradient(to right, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-overlay { position: fixed; top: 0; right: -100%; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 2000; transition: 0.4s; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        
+        /* ================= المتغيرات الأساسية ================= */
+        :root { 
+            --gold: #ffd700; 
+            --gold-dark: #d4af37;
+            --bg: #050505; 
+            --glass: rgba(255, 255, 255, 0.05); 
+            --border: rgba(255, 255, 255, 0.1);
+            --red: #ff4444;
+        }
+
+        /* ================= الحركات والتأثيرات ================= */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes leader-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.4); border-color: rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), 0 0 35px rgba(255, 215, 0, 0.6); border-color: rgba(255, 215, 0, 1); }
+            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.4); border-color: rgba(255, 215, 0, 0.4); }
+        }
+
+        @keyframes ticker { 
+            0% { transform: translateX(-100%); } 
+            100% { transform: translateX(100%); } 
+        }
+
+        /* ================= التنسيقات العامة ================= */
+        body { 
+            background-color: var(--bg); 
+            color: #fff; 
+            font-family: 'Cairo', sans-serif; 
+            margin: 0; 
+            overflow-x: hidden; 
+        }
+
+        .hidden { display: none !important; }
+
+        .container { 
+            max-width: 600px; 
+            margin: auto; 
+            padding: 20px; 
+            min-height: 80vh; 
+        }
+
+        /* ================= شريط الأخبار والهيدر ================= */
+        .news-ticker { 
+            background: rgba(212, 175, 55, 0.08); 
+            border-bottom: 1px solid var(--gold-dark); 
+            height: 35px; 
+            display: flex; 
+            align-items: center; 
+            overflow: hidden; 
+            position: sticky; 
+            top: 70px; 
+            z-index: 999; 
+            backdrop-filter: blur(8px); 
+        }
+        
+        .ticker-content { 
+            display: inline-block; 
+            animation: ticker 30s linear infinite; 
+            color: var(--gold); 
+            font-size: 0.85rem; 
+            font-weight: bold; 
+            white-space: nowrap; 
+            padding-right: 100%; 
+        }
+
+        .header { 
+            background: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(15px); 
+            padding: 15px 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 2px solid var(--gold-dark); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+
+        /* ================= القائمة الجانبية (Navigation) ================= */
+        .nav-overlay { 
+            position: fixed; 
+            top: 0; 
+            right: -100%; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0, 0, 0, 0.95); 
+            backdrop-filter: blur(20px); 
+            z-index: 2000; 
+            transition: 0.4s ease-in-out; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+        }
+        
         .nav-overlay.active { right: 0; }
-        .nav-link { font-size: 1.8rem; color: #fff; text-decoration: none; margin: 15px; font-weight: 900; }
-        .container { max-width: 500px; margin: auto; padding: 20px; }
-        .glass-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 25px; margin-bottom: 25px; }
-        .card-title { color: var(--gold); font-size: 1.1rem; font-weight: 900; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .rank-item { display: flex; justify-content: space-between; padding: 14px; background: rgba(255,255,255,0.02); border-radius: 12px; margin-bottom: 8px; align-items: center; }
-        .rank-item.top { border-right: 3px solid var(--gold); background: linear-gradient(90deg, rgba(212,175,55,0.1), transparent); }
-        .player-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .p-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 15px; padding: 15px; text-align: center; cursor: pointer; }
-        .fire-hero { grid-column: span 2; border: 2px solid #ff4444; background: rgba(255,0,0,0.08); }
-        .ticket { background: #111; padding: 18px; border-radius: 15px; border-left: 4px solid var(--gold); text-align: center; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; }
-        td { padding: 12px 5px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .hidden { display: none; }
+        
+        .nav-link { 
+            font-size: 1.8rem; 
+            color: #fff; 
+            text-decoration: none; 
+            margin: 15px; 
+            font-weight: 900; 
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover { color: var(--gold); }
+
+        /* ================= بطاقات الزجاج (Glass Cards) ================= */
+        .glass-card { 
+            background: var(--glass); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            backdrop-filter: blur(12px); 
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-title { 
+            color: var(--gold); 
+            font-size: 1.2rem; 
+            font-weight: 900; 
+            margin-bottom: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 10px;
+        }
+
+        /* ================= الجداول والتصنيفات ================= */
+        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+        td { padding: 12px 8px; background: rgba(255,255,255,0.03); text-align: center; font-weight: bold; border-radius: 8px;}
+        
+        .table-leader-row td {
+            background: linear-gradient(90deg, rgba(30,24,0,1) 0%, rgba(0,0,0,1) 100%) !important; 
+        }
+        .table-leader-row {
+            animation: leader-glow 2s infinite !important; 
+            border: 1px solid var(--gold) !important;
+            transform: scale(1.02); 
+            z-index: 10;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .table-leader-row td:nth-child(2)::before { content: "👑 "; font-size: 1rem; margin-right: 5px; }
+
+        .rank-item { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 15px; 
+            background: rgba(255,255,255,0.03); 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            align-items: center; 
+            border-right: 3px solid transparent; 
+            transition: 0.3s;
+        }
+        .rank-item.top { 
+            border-right-color: var(--gold); 
+            background: linear-gradient(90deg, rgba(212,175,55,0.15), transparent); 
+        }
+
+        /* ================= قسم اللاعبين والمباريات ================= */
+        .player-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .p-card { 
+            background: rgba(255,255,255,0.04); 
+            border: 1px solid var(--border); 
+            border-radius: 15px; 
+            padding: 15px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            display: flex; 
+            flex-direction: row-reverse; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 10px; 
+            font-weight: bold;
+        }
+        .p-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+        .fire-hero { 
+            grid-column: span 2; 
+            border: 2px solid var(--red); 
+            background: rgba(255,0,0,0.1); 
+            box-shadow: 0 0 20px rgba(255,0,0,0.3); 
+            flex-direction: row;
+        }
+
+        .ticket { 
+            background: rgba(255,255,255,0.03); 
+            padding: 18px; 
+            border-radius: 15px; 
+            border-left: 4px solid var(--gold); 
+            text-align: center; 
+            margin-bottom: 15px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* ================= النافذة المنبثقة (Modal) ================= */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 3000; 
+            justify-content: center; 
+            align-items: center; 
+            backdrop-filter: blur(10px); 
+        }
+        .modal-box { 
+            background: #111; 
+            border: 2px solid var(--gold-dark); 
+            width: 85%; 
+            max-width: 400px;
+            padding: 35px; 
+            border-radius: 20px; 
+            text-align: center; 
+            box-shadow: 0 0 30px rgba(212,175,55,0.2);
+        }
     </style>
 </head>
 <body>
-<div class="header">
-    <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.5rem;"><i class="fas fa-bars-staggered"></i></div>
-    <div class="logo-text">HUB HUSSAIN 365</div>
-    <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.4rem;"><i class="fas fa-house"></i></div>
-</div>
-<div class="news-ticker"><div class="ticker-content" id="news-text">جاري التحميل...</div></div>
-<div class="nav-overlay" id="navOverlay">
-    <a href="#" class="nav-link" onclick="showPage('home')">الرئيسية</a>
-    <a href="#" class="nav-link" onclick="showPage('matches')">المباريات</a>
-    <a href="#" class="nav-link" onclick="showPage('awards')">الجوائز</a>
-    <a href="#" class="nav-link" onclick="showPage('players')">اللاعبين</a>
-    <div onclick="toggleMenu()" style="margin-top:40px; color:var(--gold); font-size:2rem;"><i class="fas fa-times-circle"></i></div>
-</div>
-<div id="home-page" class="container">
-    <div class="glass-card"><div class="card-title">🏆 التصنيف العالمي</div><div id="world-rank"></div></div>
-    <div class="glass-card"><div class="card-title">📊 ترتيب الدوري</div><table id="league-table"></table></div>
-</div>
-<div id="matches-page" class="container hidden">
-    <div class="glass-card"><div class="card-title">⚽ المباريات القادمة</div><div id="next-matches"></div></div>
-</div>
-<div id="awards-page" class="container hidden">
-    <div class="glass-card"><div class="card-title">👑 البالون دور</div><div id="ballon-list"></div></div>
-    <div class="glass-card"><div class="card-title">🔥 الهدافين</div><div id="scorers-list"></div></div>
-</div>
-<div id="players-page" class="container hidden">
-    <div class="player-grid" id="players-list"></div>
-</div>
-<script>
-    const url = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
-    function toggleMenu() { document.getElementById('navOverlay').classList.toggle('active'); }
-    function showPage(p) { ['home', 'matches', 'awards', 'players'].forEach(id => document.getElementById(id + '-page').classList.toggle('hidden', id !== p)); toggleMenu(); }
-    async function updateData() {
-        try {
-            const r = await fetch(url); const t = await r.text();
-            const rows = t.split('\n').map(row => row.split(',').map(c => c.replace(/"/g, '').trim()));
-            document.getElementById('news-text').innerText = rows[1][21] || "";
-            let wr="", trs="", bl="", sl="", pl="", mx="";
-            for(let i=1; i<=5; i++) if(rows[i][8]) wr += `<div class="rank-item ${i==1?'top':''}"><span>${i==1?'👑 ':i+'. '} ${rows[i][8]}</span><b>${rows[i][9]}</b></div>`;
-            document.getElementById('world-rank').innerHTML = wr;
-            let teams = rows.slice(1).map(r => ({ n: r[0], p: r[1], s: parseInt(r[5]) || 0 })).filter(x => x.n && x.n !== "الفريق").sort((a,b) => b.s - a.s);
-            teams.forEach((x, i) => { trs += `<tr><td>${i+1}</td><td style="text-align:right">${x.n}</td><td>${x.p}</td><td style="color:var(--gold)">${x.s}</td></tr>`; });
-            document.getElementById('league-table').innerHTML = trs;
-            for(let i=1; i<=3; i++) if(rows[i][11]) bl += `<div class="rank-item"><span>🏅 ${rows[i][11]}</span></div>`;
-            for(let i=1; i<=5; i++) if(rows[i][13]) sl += `<div class="rank-item"><span>${rows[i][13]}</span><b>${rows[i][14]} هدف</b></div>`;
-            document.getElementById('ballon-list').innerHTML = bl; document.getElementById('scorers-list').innerHTML = sl;
-            if(rows[1][22]) pl += `<div class="p-card fire-hero">🔥 <b>${rows[1][22]}</b></div>`;
-            for(let i=1; i<=10; i++) if(rows[i][24]) pl += `<div class="p-card">👤 ${rows[i][24]}</div>`;
-            document.getElementById('players-list').innerHTML = pl;
-            for(let i=1; i<=2; i++) if(rows[i][17]) mx += `<div class="ticket"><b>${rows[i][17]} VS ${rows[i][18]}</b><br><small>${rows[i][19]}</small></div>`;
-            document.getElementById('next-matches').innerHTML = mx;
-        } catch(e) {}
-    }
-    updateData(); setInterval(updateData, 20000);
-</script>
+
+    <header class="header">
+        <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.5rem;">
+            <i class="fas fa-bars-staggered"></i>
+        </div>
+        <div style="text-align: center; margin-top: 5px;">
+            <div style="font-size: 0.65rem; color: var(--red); font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px rgba(255,0,0,0.8);">DEV HASSANY</div>
+            <div id="countdown" style="font-size: 1.3rem; font-weight: 900; color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.6); font-family: monospace;">00:00:00</div>
+        </div>
+        <div onclick="showPage('home')" style="color:var(--gold); cursor:pointer; font-size:1.4rem;">
+            <i class="fas fa-house"></i>
+        </div>
+    </header>
+
+    <div class="news-ticker">
+        <div class="ticker-content" id="news-text">جاري تحميل الأخبار الملكية...</div>
+    </div>
+
+    <nav class="nav-overlay" id="navOverlay">
+        <a href="#" class="nav-link" onclick="showPage('home')">الرئيسية <i class="fas fa-home-alt"></i></a>
+        <a href="#" class="nav-link" onclick="showPage('matches')">المباريات <i class="fas fa-futbol"></i></a>
+        <a href="#" class="nav-link" onclick="showPage('awards')">الجوائز <i class="fas fa-award"></i></a>
+        <a href="#" class="nav-link" onclick="showPage('players')">اللاعبين <i class="fas fa-users"></i></a>
+        <div onclick="toggleMenu()" style="margin-top:50px; color:var(--red); font-size:2.5rem; cursor:pointer;">
+            <i class="fas fa-times-circle"></i>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home-page" class="container">
+            <div class="glass-card">
+                <div class="card-title"><i class="fas fa-globe"></i> التصنيف العالمي</div>
+                <div id="world-rank"></div>
+            </div>
+            <div class="glass-card">
+                <div class="card-title"><i class="fas fa-list-ol"></i> ترتيب الدوري</div>
+                <table id="league-table"></table>
+            </div>
+        </section>
+
+        <section id="matches-page" class="container hidden">
+            <div class="glass-card">
+                <div class="card-title"><i class="fas fa-ticket-alt"></i> جدول المباريات</div>
+                <div id="next-matches"></div>
+            </div>
+        </section>
+
+        <section id="awards-page" class="container hidden">
+            <div class="glass-card">
+                <div class="card-title"><i class="fas fa-medal"></i> مرشحي البالون دور</div>
+                <div id="ballon-list"></div>
+            </div>
+            <div class="glass-card">
+                <div class="card-title"><i class="fas fa-fire"></i> صراع الهدافين</div>
+                <div id="scorers-list"></div>
+            </div>
+            <div class="glass-card" style="background:none; border:none; box-shadow:none; padding: 0;">
+                <div class="card-title" style="padding: 20px;"><i class="fas fa-star"></i> نجوم الجولة</div>
+                <div id="motm-list"></div>
+            </div>
+        </section>
+
+        <section id="players-page" class="container hidden">
+            <div class="player-grid" id="players-list"></div>
+        </section>
+    </main>
+
+    <div class="modal" id="pModal" onclick="this.style.display='none'">
+        <div class="modal-box">
+            <h2 id="mName" style="color:var(--gold)"></h2>
+            <p id="mInfo" style="line-height:1.8; color: #ccc; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <script>
+        const sheetUrl = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
+
+        function toggleMenu() { 
+            document.getElementById('navOverlay').classList.toggle('active'); 
+        }
+
+        function showPage(pageId) {
+            const pages = ['home', 'matches', 'awards', 'players'];
+            pages.forEach(id => {
+                document.getElementById(id + '-page').classList.toggle('hidden', id !== pageId);
+            });
+            if(document.getElementById('navOverlay').classList.contains('active')) toggleMenu();
+            window.scrollTo(0,0);
+        }
+
+        function openPlayerModal(name, info) { 
+            document.getElementById('mName').innerText = name; 
+            document.getElementById('mInfo').innerText = info; 
+            document.getElementById('pModal').style.display = 'flex'; 
+        }
+
+        function renderPlayerPitch(img, name, pos) {
+            if(!name || name.trim() === "") return "";
+            return `
+            <div style="position: absolute; ${pos}; transform: translate(-50%, -50%); text-align: center; width: 90px; z-index: 10;">
+                <div style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--gold-dark); overflow: hidden; margin: 0 auto; background: #111; box-shadow: 0 0 15px rgba(212,175,55,0.5);">
+                    <img src="${img}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://via.placeholder.com/60/000000/d4af37?text=?'">
+                </div>
+                <div style="background: rgba(0,0,0,0.9); color: #fff; font-size: 11px; padding: 4px; border-radius: 6px; border: 1px solid var(--gold-dark); margin-top: 6px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${name}</div>
+            </div>`;
+        }
+
+        function highlightLeader() {
+            const currentLeader = document.querySelector('#league-table tr.table-leader-row');
+            if (currentLeader) currentLeader.classList.remove('table-leader-row');
+            
+            const rows = document.querySelectorAll('#league-table tr');
+            if (rows.length > 0) rows[0].classList.add('table-leader-row');
+        }
+
+        async function updateData() {
+            try {
+                const response = await fetch(sheetUrl);
+                const textData = await response.text();
+                const rows = textData.split('\n').map(row => row.split(',').map(cell => cell.replace(/"/g, '').trim()));
+
+                // 1. تحديث الأخبار والصوت
+                const newsUpdate = rows[0][0]; 
+                if (window.savedNews && window.savedNews !== newsUpdate) {
+                    new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3').play().catch(() => {});
+                }
+                window.savedNews = newsUpdate;
+                document.getElementById('news-text').innerText = rows[1][21] || "لا توجد أخبار حالياً";
+
+                // 2. التصنيف العالمي
+                let worldRankHtml = ""; 
+                for(let i=1; i<=5; i++) {
+                    if(rows[i][8]) {
+                        worldRankHtml += `
+                        <div class="rank-item ${i==1 ? 'top' : ''}">
+                            <span>${i==1 ? '<i class="fas fa-crown" style="color:var(--gold); text-shadow:0 0 10px red;"></i> ' : i+'.'} ${rows[i][8]}</span>
+                            <b style="color:var(--gold)">${rows[i][9]}</b>
+                        </div>`;
+                    }
+                }
+                document.getElementById('world-rank').innerHTML = worldRankHtml;
+
+                // 3. ترتيب الدوري
+                let tableRowsHtml = "";
+                let teams = rows.slice(1).map(r => ({ name: r[0], played: r[1], points: parseInt(r[5]) || 0 }))
+                                .filter(x => x.name && x.name !== "الفريق")
+                                .sort((a,b) => b.points - a.points);
+                
+                teams.forEach((team, index) => { 
+                    tableRowsHtml += `
+                    <tr>
+                        <td>${index == 0 ? '<i class="fas fa-crown" style="color:var(--gold);"></i>' : index+1}</td>
+                        <td style="text-align:right">${team.name}</td>
+                        <td>${team.played}</td>
+                        <td style="color:var(--gold)">${team.points}</td>
+                    </tr>`; 
+                });
+                document.getElementById('league-table').innerHTML = tableRowsHtml;
+                highlightLeader(); // تفعيل التوهج بعد بناء الجدول
+
+                // 4. الجوائز وتشكيلة الأسبوع
+                let ballonDorHtml = "", scorersHtml = "", motmHtml = "";
+                
+                for(let i=1; i<=5; i++) {
+                    if(rows[i][11]) ballonDorHtml += `<div class="rank-item"><span><i class="fas fa-award" style="color:var(--gold)"></i> ${rows[i][11]}</span></div>`;
+                }
+                
+                for(let i=1; i<=5; i++) {
+                    if(rows[i][13]) scorersHtml += `<div class="rank-item"><span>${rows[i][13]}</span><b style="background:var(--gold); color:#000; padding:3px 10px; border-radius:8px;">${rows[i][14]} هدف</b></div>`;
+                }
+
+                // رجل المباراة
+                if(rows[1][16]) {
+                    motmHtml += `
+                    <div class="glass-card" style="text-align: center; padding: 30px 15px; border: 2px solid var(--gold-dark); position: relative; overflow: hidden;">
+                        <div style="width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%; border: 3px solid var(--gold); overflow: hidden; background: #111; box-shadow: 0 0 20px rgba(212,175,55,0.4);">
+                            <img src="${rows[0][15]}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+                        </div>
+                        <div style="color: var(--gold-dark); font-size: 12px; font-weight: bold; letter-spacing: 2px; margin-bottom: 5px; text-transform: uppercase;">رجل الجولة</div>
+                        <div style="color: #fff; font-size: 1.6rem; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">${rows[1][16]}</div>
+                    </div>`;
+                }
+
+                // تشكيلة الأسبوع (الملعب)
+                const pitchHtml = `
+                <div style="margin: 30px auto; max-width: 450px; text-align: center;">
+                    <h3 style="color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.3); margin-bottom: 15px;">🔥 تشكيلة الجولة</h3>
+                    <div style="position: relative; width: 100%; height: 500px; background: #0a0a0a; border: 2px solid var(--gold-dark); border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+                        <div style="position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(212,175,55,0.2);"></div>
+                        <div style="position: absolute; top: 50%; left: 50%; width: 100px; height: 100px; border: 2px solid rgba(212,175,55,0.2); border-radius: 50%; transform: translate(-50%, -50%);"></div>
+                        <div style="position: absolute; bottom: 0; left: 50%; width: 180px; height: 70px; border: 2px solid rgba(212,175,55,0.2); transform: translateX(-50%); border-radius: 10px 10px 0 0;"></div>
+
+                        ${renderPlayerPitch(rows[2][12], rows[1][12], 'bottom: 8%; left: 50%')}   
+                        ${renderPlayerPitch(rows[4][12], rows[3][12], 'bottom: 25%; left: 25%')} 
+                        ${renderPlayerPitch(rows[6][12], rows[5][12], 'bottom: 25%; left: 75%')} 
+                        ${renderPlayerPitch(rows[8][12], rows[7][12], 'top: 50%; left: 50%')}       
+                        ${renderPlayerPitch(rows[10][12], rows[9][12], 'top: 15%; left: 30%')}    
+                        ${renderPlayerPitch(rows[12][12], rows[11][12], 'top: 15%; left: 70%')}   
+                    </div>
+                </div>`;
+                
+                motmHtml += pitchHtml;
+
+                document.getElementById('ballon-list').innerHTML = ballonDorHtml;
+                document.getElementById('scorers-list').innerHTML = scorersHtml;
+                document.getElementById('motm-list').innerHTML = motmHtml;
+
+                // 5. قسم اللاعبين
+                let playersHtml = "";
+                if(rows[1][22]) {
+                    playersHtml += `<div class="p-card fire-hero" onclick="openPlayerModal('${rows[1][22]}', '${rows[1][23]}')"><i class="fas fa-fire" style="color:var(--red);"></i> <span>${rows[1][22]}</span></div>`;
+                }
+                for(let i=1; i<=12; i++) {
+                    if(rows[i][24]) playersHtml += `<div class="p-card" onclick="openPlayerModal('${rows[i][24]}', '${rows[i][25]}')"><i class="fas fa-user-shield" style="color:var(--gold)"></i> <span>${rows[i][24]}</span></div>`;
+                }
+                document.getElementById('players-list').innerHTML = playersHtml;
+
+                // 6. المباريات
+                let matchesHtml = ""; 
+                for(let i=1; i<=5; i++) {
+                    if(rows[i][17]) {
+                        matchesHtml += `
+                        <div class="ticket">
+                            <small style="color:var(--gold-dark); font-weight:bold;">${rows[i][20]}</small><br>
+                            <b style="font-size:1.2rem; display:block; margin:8px 0;">${rows[i][17]} VS ${rows[i][18]}</b>
+                            <small style="color:#aaa;">${rows[i][19]}</small>
+                        </div>`;
+                    }
+                }
+                document.getElementById('next-matches').innerHTML = matchesHtml;
+
+            } catch(error) {
+                console.error("خطأ في جلب البيانات:", error);
+            }
+        }
+
+        // تشغيل التحديث التلقائي
+        updateData(); 
+        setInterval(updateData, 20000);
+
+        // مؤقت العد التنازلي
+        setInterval(() => {
+            const target = new Date("Apr 14, 2026 16:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+            const el = document.getElementById("countdown");
+
+            if (diff < 0) {
+                el.innerText = "بدأت البطولة!";
+                el.style.color = "var(--red)";
+                el.style.animation = "none";
+            } else {
+                const h = Math.floor(diff / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                el.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                
+                if (h === 0) el.style.animation = "pulse 1s infinite";
+            }
+        }, 1000);
+
+    </script>
 </body>
 </html>
