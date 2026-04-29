@@ -2,416 +2,191 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUSSAIN AL-HASSANY | THE SUPREME LEAGUE</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Smart Buttons 📱</title>
     <style>
-        /* --- الأساسيات والألوان المتفجرة --- */
         :root {
-            --primary: #ffd700; /* الذهب */
-            --secondary: #ff003c; /* الأحمر النيوني */
-            --bg-body: #050505;
-            --card-bg: rgba(15, 15, 15, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --neon-red-glow: 0 0 15px rgba(255, 0, 60, 0.6);
-            --gold-glow: 0 0 15px rgba(255, 215, 0, 0.3);
+            --bg: #f4f4f9;
+            --card: #ffffff;
+            --text: #333;
+            --accent: #007aff;
         }
-
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #1c1c1e;
+                --card: #2c2c2e;
+                --text: #ffffff;
+            }
+        }
         body {
-            background: var(--bg-body);
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 60, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
-        }
-
-        /* --- شاشة التحميل الأسطورية --- */
-        #loader {
-            position: fixed; inset: 0; background: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .loader-circle {
-            width: 80px; height: 80px; border: 4px solid #111;
-            border-top: 4px solid var(--secondary); border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* --- الهيكل العام --- */
-        .app-wrapper { opacity: 0; transition: opacity 1s ease; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px 15px 100px; }
-
-        /* --- الهيدر الفخم --- */
-        .main-header {
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
-            padding: 20px; text-align: center; border-bottom: 2px solid var(--primary);
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .dev-badge {
-            font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--secondary);
-            letter-spacing: 4px; font-weight: 900; margin-bottom: 5px; display: block;
-        }
-        .main-title { font-size: 1.8rem; font-weight: 900; margin: 0; color: #fff; text-shadow: 2px 2px 0px var(--secondary); }
-        .timer-display {
-            font-family: 'Orbitron', sans-serif; color: var(--primary); font-size: 1.4rem;
-            margin-top: 10px; font-weight: 900; letter-spacing: 1px;
-        }
-
-        /* --- شريط الأخبار الذكي --- */
-        .news-ticker {
-            background: linear-gradient(90deg, transparent, var(--secondary), transparent);
-            padding: 8px 0; overflow: hidden; white-space: nowrap; margin-top: 1px;
-        }
-        .ticker-content { display: inline-block; animation: scrollText 20s linear infinite; font-weight: 900; font-size: 0.9rem; }
-        @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* --- نظام التبويبات (Navigation Dock) --- */
-        .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 90%; max-width: 450px; background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-            border-radius: 30px; display: flex; justify-content: space-around;
-            padding: 15px; z-index: 2000; box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-        }
-        .nav-btn { color: #555; font-size: 1.4rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; }
-        .nav-btn.active { color: var(--primary); transform: translateY(-10px); }
-        .nav-btn.active::after {
-            content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-            width: 5px; height: 5px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary);
-        }
-
-        /* --- الكروت والوحدات (Modular Sections) --- */
-        .section-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 25px; padding: 20px; margin-bottom: 25px;
-            animation: slideUp 0.6s ease backwards;
-        }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        .section-header {
-            font-size: 1.1rem; font-weight: 900; color: var(--primary);
-            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
-            border-right: 4px solid var(--secondary); padding-right: 15px;
-        }
-
-        /* --- جدول الترتيب والنقاط المتوهجة --- */
-        .league-row {
-            display: grid; grid-template-columns: 40px 1fr 50px 60px;
-            align-items: center; padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 20px;
             transition: 0.3s;
         }
-        .league-row:last-child { border: none; }
-        .league-row.top-one { background: linear-gradient(90deg, rgba(255,215,0,0.05), transparent); border-right: 3px solid var(--primary); }
-        
-        .rank-num { font-family: 'Orbitron', sans-serif; font-weight: 900; color: #444; }
-        .top-one .rank-num { color: var(--primary); }
-        .team-name { font-weight: 700; font-size: 1rem; }
-        .points-val {
-            font-family: 'Orbitron', sans-serif; font-weight: 900; color: var(--primary);
-            text-align: center; animation: neonPulse 2s infinite;
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        @keyframes neonPulse {
-            0%, 100% { text-shadow: 0 0 2px var(--secondary); transform: scale(1); }
-            50% { text-shadow: 0 0 12px var(--secondary), 0 0 20px var(--secondary); transform: scale(1.1); }
+        h1 { font-size: 24px; margin: 0; }
+        .add-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            cursor: pointer;
         }
-
-        /* --- الجوائز (The Awards Hall) --- */
-        .award-item {
-            background: rgba(255,255,255,0.02); border-radius: 15px;
-            padding: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 15px;
-            border-left: 3px solid var(--primary);
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
-        .award-icon-box {
-            width: 50px; height: 50px; background: rgba(255,215,0,0.1);
-            border-radius: 12px; display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem; color: var(--primary);
+        .smart-card {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
         }
-        .award-info b { display: block; font-size: 1.1rem; color: #fff; }
-        .award-info span { font-size: 0.8rem; color: #777; font-weight: 900; }
-
-        /* --- تشكيلة الجولة (Tactical Board) --- */
-        .tactical-board {
-            background: linear-gradient(135deg, #0a1a0a 0%, #000 100%);
-            border: 2px dashed #1a3a1a; border-radius: 20px; padding: 20px;
-            text-align: center; position: relative;
+        .info h3 { margin: 0; font-size: 18px; }
+        .info span { font-size: 12px; opacity: 0.6; }
+        .actions button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            margin-right: 10px;
+            cursor: pointer;
         }
-        .player-chip {
-            display: inline-block; padding: 5px 12px; background: var(--secondary);
-            border-radius: 5px; margin: 5px; font-size: 0.85rem; font-weight: 900;
-            box-shadow: 0 4px 10px rgba(255,0,60,0.3);
+        /* Modal Style */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
         }
-
-        /* --- قسم اللاعبين (Legend Cards) --- */
-        .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .legend-card {
-            background: #111; border-radius: 20px; padding: 20px; text-align: center;
-            border: 1px solid var(--glass-border); transition: 0.4s;
+        .modal-content {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 400px;
         }
-        .legend-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: var(--gold-glow); }
-        .legend-card i { font-size: 2rem; color: var(--secondary); margin-bottom: 10px; }
-        .hero-card { grid-column: span 2; background: linear-gradient(45deg, #1a0000, #000); border: 1px solid var(--secondary); }
-        .hero-card i { animation: neonPulse 1.5s infinite; }
-
-        /* --- التصنيف العالمي (World Rank) --- */
-        .rank-grid { display: flex; flex-direction: column; gap: 10px; }
-        .rank-box {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px; background: rgba(255,255,255,0.03); border-radius: 15px;
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
         }
-
-        /* --- قسم المباريات --- */
-        .match-card {
-            background: #0d0d0d; border-radius: 20px; padding: 20px; margin-bottom: 15px;
-            position: relative; overflow: hidden; border-right: 4px solid var(--secondary);
+        .save-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
         }
-        .match-meta { display: flex; justify-content: space-between; font-family: 'Orbitron'; font-size: 0.7rem; color: #555; }
-        .match-teams { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-        .m-team { font-weight: 900; font-size: 1rem; width: 40%; }
-        .vs-circle {
-            width: 35px; height: 35px; background: var(--secondary); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center; font-size: 0.7rem;
-            font-weight: 900; font-family: 'Orbitron'; box-shadow: var(--neon-red-glow);
-        }
-
-        .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="loader-circle"></div>
-        <p style="font-family: 'Orbitron'; margin-top: 20px; color: var(--primary); letter-spacing: 2px;">INITIALIZING SYSTEM...</p>
+<header>
+    <h1>Smart Buttons 🌙</h1>
+    <button class="add-btn" onclick="openModal()">+</button>
+</header>
+
+<div class="container" id="buttonsList">
     </div>
 
-    <div class="app-wrapper" id="app">
-        <header class="main-header">
-            <span class="dev-badge">DEVELOPER HUSSAIN AL-HASSANY</span>
-            <h1 class="main-title">CHAMPIONS OF THE FOURTH</h1>
-            <div class="timer-display" id="main-timer">00:00:00</div>
-        </header>
-
-        <div class="news-ticker">
-            <div class="ticker-content" id="live-news">جاري استدعاء البيانات من السيرفر الأسطوري...</div>
-        </div>
-
-        <main class="container">
-            <section id="tab-home">
-                <div class="section-card">
-                    <div class="section-header"><i class="fas fa-globe-asia"></i> التصنيف العالمي</div>
-                    <div class="rank-grid" id="world-rank-box"></div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header"><i class="fas fa-list-ol"></i> صراع الصدارة</div>
-                    <div id="league-table-box"></div>
-                </div>
-            </section>
-
-            <section id="tab-matches" class="hidden">
-                <div class="section-header"><i class="fas fa-fire"></i> جدول القتال</div>
-                <div id="matches-box"></div>
-            </section>
-
-            <section id="tab-awards" class="hidden">
-                <div class="section-card">
-                    <div class="section-header"><i class="fas fa-crown"></i> رجل الجولة</div>
-                    <div id="motm-box"></div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header"><i class="fas fa-chess-board"></i> تشكيلة الجولة الأسطورية</div>
-                    <div class="tactical-board" id="totw-box"></div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header"><i class="fas fa-medal"></i> سباق البالون دور</div>
-                    <div id="ballon-box"></div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header"><i class="fas fa-bullseye"></i> قائمة الهدافين</div>
-                    <div id="scorers-box"></div>
-                </div>
-            </section>
-
-            <section id="tab-players" class="hidden">
-                <div class="section-header"><i class="fas fa-user-ninja"></i> نخبة الأبطال</div>
-                <div class="legend-grid" id="players-box"></div>
-            </section>
-        </main>
-
-        <nav class="bottom-nav">
-            <div class="nav-btn active" onclick="changeTab('home', this)"><i class="fas fa-house"></i></div>
-            <div class="nav-btn" onclick="changeTab('matches', this)"><i class="fas fa-gamepad"></i></div>
-            <div class="nav-btn" onclick="changeTab('awards', this)"><i class="fas fa-trophy"></i></div>
-            <div class="nav-btn" onclick="changeTab('players', this)"><i class="fas fa-users"></i></div>
-        </nav>
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <h3>إضافة زر جديد ✨</h3>
+        <input type="text" id="btnName" placeholder="اسم الزر">
+        <input type="text" id="btnValue" placeholder="الرابط أو النص">
+        <select id="btnType">
+            <option value="url">رابط (URL) 🔗</option>
+            <option value="text">نص (Text) 📝</option>
+        </select>
+        <button class="save-btn" onclick="saveButton()">حفظ الزر</button>
+        <button onclick="closeModal()" style="width:100%; background:none; border:none; margin-top:10px; color:red;">إلغاء</button>
     </div>
+</div>
 
-    <script>
-        // --- تهيئة البيانات (CONFIG) ---
-        const SHEET_CSV = "https://docs.google.com/spreadsheets/d/1-MToSjxxd5GTvmghx0MxkZJmU0gXOZbDPCt8-Q45Db8/export?format=csv";
+<script>
+    let buttons = JSON.parse(localStorage.getItem('smart_buttons_h') || '[]');
+
+    function renderButtons() {
+        const list = document.getElementById('buttonsList');
+        list.innerHTML = '';
+        buttons.forEach((btn, index) => {
+            list.innerHTML += `
+                <div class="smart-card" onclick="actionButton(${index})">
+                    <div class="info">
+                        <h3>${btn.name}</h3>
+                        <span>${btn.type === 'url' ? 'رابط 🔗' : 'نص 📝'}</span>
+                    </div>
+                    <div class="actions">
+                        <button onclick="deleteButton(event, ${index})">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function openModal() { document.getElementById('modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+    function saveButton() {
+        const name = document.getElementById('btnName').value;
+        const val = document.getElementById('btnValue').value;
+        const type = document.getElementById('btnType').value;
+
+        if(!name || !val) return alert('املأ الحقول يا حسين!');
+
+        buttons.unshift({name, val, type});
+        localStorage.setItem('smart_buttons_h', JSON.stringify(buttons));
+        renderButtons();
+        closeModal();
         
-        // --- نظام التبديل بين الصفحات ---
-        function changeTab(tabName, el) {
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            el.classList.add('active');
-            
-            ['home', 'matches', 'awards', 'players'].forEach(id => {
-                document.getElementById('tab-' + id).classList.add('hidden');
-            });
-            document.getElementById('tab-' + tabName).classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        // مسح الحقول
+        document.getElementById('btnName').value = '';
+        document.getElementById('btnValue').value = '';
+    }
+
+    function actionButton(index) {
+        const btn = buttons[index];
+        if(btn.type === 'url') {
+            window.open(btn.val, '_blank');
+        } else {
+            alert(btn.name + ":\n" + btn.val);
         }
+    }
 
-        // --- جلب البيانات ومعالجتها ---
-        async function syncData() {
-            try {
-                const response = await fetch(SHEET_CSV);
-                const csvData = await response.text();
-                const rows = csvData.split('\n').map(r => r.split(',').map(c => c.replace(/"/g, '').trim()));
-
-                // 1. الأخبار (Column 21)
-                document.getElementById('live-news').innerText = rows[1][21] || "لا أخبار جديدة اليوم.";
-
-                // 2. التصنيف العالمي (Cols 8, 9)
-                let wrHtml = "";
-                for(let i=1; i<=5; i++) {
-                    if(rows[i][8]) {
-                        wrHtml += `<div class="rank-box">
-                            <span><i class="fas fa-shield-alt" style="color:var(--primary)"></i> ${rows[i][8]}</span>
-                            <span style="font-family:'Orbitron'; font-weight:900;">RANK ${i}</span>
-                        </div>`;
-                    }
-                }
-                document.getElementById('world-rank-box').innerHTML = wrHtml;
-
-                // 3. جدول الترتيب (Cols 0, 1, 5)
-                let teams = rows.slice(1).map(r => ({ name: r[0], matches: r[1], points: parseInt(r[5]) || 0 }))
-                                .filter(t => t.name && t.name !== "الفريق")
-                                .sort((a,b) => b.points - a.points);
-                
-                let tableHtml = `<div class="league-row" style="color:#555; font-size:0.7rem; font-weight:900;">
-                                    <span>#</span><span>الفريق</span><span>لعب</span><span>النقاط</span>
-                                 </div>`;
-                teams.forEach((t, i) => {
-                    tableHtml += `<div class="league-row ${i==0?'top-one':''}">
-                        <span class="rank-num">${i+1}</span>
-                        <span class="team-name">${t.name}</span>
-                        <span style="text-align:center">${t.matches}</span>
-                        <span class="points-val">${t.points}</span>
-                    </div>`;
-                });
-                document.getElementById('league-table-box').innerHTML = tableHtml;
-
-                // 4. الجوائز (MOTM: Col 12 | Ballon: Col 11 | Scorers: 13, 14 | TOTW: 15)
-                // رجل الجولة
-                document.getElementById('motm-box').innerHTML = `
-                    <div class="award-item">
-                        <div class="award-icon-box"><i class="fas fa-star"></i></div>
-                        <div class="award-info"><b>${rows[1][12] || 'TBD'}</b><span>MAN OF THE MATCH</span></div>
-                    </div>`;
-                
-                // تشكيلة الجولة
-                if(rows[1][15]) {
-                    let chips = rows[1][15].split('-').map(p => `<span class="player-chip">${p}</span>`).join('');
-                    document.getElementById('totw-box').innerHTML = chips;
-                }
-
-                // بالون دور
-                let ballonHtml = "";
-                for(let i=1; i<=3; i++) {
-                    if(rows[i][11]) ballonHtml += `<div class="award-item"><div class="award-icon-box" style="font-size:1rem;">${i}</div><div class="award-info"><b>${rows[i][11]}</b></div></div>`;
-                }
-                document.getElementById('ballon-box').innerHTML = ballonHtml;
-
-                // الهدافين
-                let scorerHtml = "";
-                for(let i=1; i<=5; i++) {
-                    if(rows[i][13]) scorerHtml += `<div class="rank-box"><span>${rows[i][13]}</span><b style="color:var(--secondary)">${rows[i][14]} G</b></div>`;
-                }
-                document.getElementById('scorers-box').innerHTML = scorerHtml;
-
-                // 5. المباريات (Cols 17, 18, 19, 20)
-                let matchHtml = "";
-                for(let i=1; i<=6; i++) {
-                    if(rows[i][17]) {
-                        matchHtml += `<div class="match-card">
-                            <div class="match-meta"><span>WEEKLY BATTLE</span><span>${rows[i][20]} | ${rows[i][19]}</span></div>
-                            <div class="match-teams">
-                                <span class="m-team">${rows[i][17]}</span>
-                                <div class="vs-circle">VS</div>
-                                <span class="m-team" style="text-align:left">${rows[i][18]}</span>
-                            </div>
-                        </div>`;
-                    }
-                }
-                document.getElementById('matches-box').innerHTML = matchHtml;
-
-                // 6. اللاعبين (Hero: 22, 23 | Regular: 24, 25)
-                let playersHtml = "";
-                if(rows[1][22]) {
-                    playersHtml += `<div class="legend-card hero-card">
-                        <i class="fas fa-fire-glow"></i>
-                        <h3 style="margin:5px 0; color:var(--secondary)">${rows[1][22]}</h3>
-                        <p style="font-size:0.8rem; margin:0; font-weight:900;">${rows[1][23]}</p>
-                    </div>`;
-                }
-                for(let i=1; i<=10; i++) {
-                    if(rows[i][24]) {
-                        playersHtml += `<div class="legend-card">
-                            <i class="fas fa-shield-halved"></i>
-                            <h4 style="margin:5px 0;">${rows[i][24]}</h4>
-                            <p style="font-size:0.7rem; color:#666;">${rows[i][25]}</p>
-                        </div>`;
-                    }
-                }
-                document.getElementById('players-box').innerHTML = playersHtml;
-
-                // إخفاء الـ Loader
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('app').style.opacity = '1';
-
-            } catch (error) {
-                console.error("Critical Error Fetching Data:", error);
-                document.getElementById('live-news').innerText = "خطأ في الاتصال بالسيرفر! تحقق من الإنترنت.";
-            }
+    function deleteButton(e, index) {
+        e.stopPropagation();
+        if(confirm('متأكد تريد الحذف؟')) {
+            buttons.splice(index, 1);
+            localStorage.setItem('smart_buttons_h', JSON.stringify(buttons));
+            renderButtons();
         }
+    }
 
-        // --- المؤقت الذكي ---
-        function startTimer() {
-            const targetDate = new Date("Apr 14, 2026 16:00:00").getTime();
-            setInterval(() => {
-                const now = new Date().getTime();
-                const diff = targetDate - now;
-                const timerEl = document.getElementById('main-timer');
-                
-                if (diff < 0) {
-                    timerEl.innerText = "MATCH DAY LIVE";
-                    timerEl.style.color = "var(--secondary)";
-                    return;
-                }
-                const h = Math.floor(diff / (1000 * 60 * 60));
-                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((diff % (1000 * 60)) / 1000);
-                timerEl.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-            }, 1000);
-        }
-
-        // إطلاق التطبيق
-        window.onload = () => {
-            syncData();
-            startTimer();
-            // تحديث تلقائي كل دقيقتين
-            setInterval(syncData, 120000);
-        };
-    </script>
+    renderButtons();
+</script>
 </body>
 </html>
