@@ -3,467 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الحسني | Hassany Store</title>
-    <!-- جلب خط عربي احترافي -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>متجر الحسني - </title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0d12;
-            --card-bg: #141820;
-            --card-border: #222834;
-            --text-main: #ffffff;
-            --text-sub: #8b949e;
-            --btn-bg: #1f2532;
-            --btn-border: #303645;
-            --accent-color: #0a84ff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            --fire-red: #ff3c00;
+            --dark-red: #8b0000;
+            --bg-black: #050505;
+            --card-bg: #120101;
+            --card-border: #3d0000;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding-bottom: 80px;
+            background-color: var(--bg-black);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        /* خلفية النار المتحركة */
+        .fire-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at bottom, #3d0000 0%, transparent 70%);
+            z-index: -1;
         }
 
         header {
-            background: rgba(20, 24, 32, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 20px;
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--card-border);
+            padding: 40px 20px;
+            border-bottom: 2px solid var(--fire-red);
+            background: linear-gradient(to bottom, #1a0000, var(--bg-black));
+            box-shadow: 0 5px 20px rgba(255, 60, 0, 0.3);
         }
 
         header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(90deg, #0a84ff, #00c6ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 25px 20px 15px;
-        }
-
-        .tab-btn {
-            background-color: var(--btn-bg);
-            color: var(--text-sub);
-            border: 1px solid var(--card-border);
-            padding: 10px 30px;
-            border-radius: 20px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background-color: var(--accent-color);
+            font-size: 35px;
+            font-weight: 900;
+            text-shadow: 0 0 15px var(--fire-red);
+            margin: 0;
             color: #fff;
-            border-color: var(--accent-color);
+        }
+
+        .dev-info {
+            margin-top: 10px;
+            color: var(--fire-red);
+            font-weight: bold;
+            font-size: 18px;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 650px;
+            margin: 30px auto;
             padding: 0 15px;
         }
 
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* تصميم كارت التطبيق بدون صورة */
+        /* تصميم الكارت بستايل iOSGods الناري */
         .app-card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
+            border-radius: 22px;
+            padding: 25px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .app-card:active {
-            transform: scale(0.98);
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,60,0,0.05) 0%, transparent 70%);
+            pointer-events: none;
         }
 
-        .app-info {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+        .app-card:hover {
+            border-color: var(--fire-red);
+            box-shadow: 0 0 20px rgba(255, 60, 0, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .info {
             flex: 1;
-            padding-left: 15px;
         }
 
-        .app-info h3 {
-            font-size: 18px;
-            font-weight: 700;
+        .info h3 {
             margin: 0;
-            color: var(--text-main);
-        }
-
-        .app-info p {
-            font-size: 13px;
-            color: var(--text-sub);
-            margin: 0;
-            line-height: 1.4;
-        }
-
-        .store-tag {
-            font-size: 11px;
-            color: var(--accent-color);
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 2px;
-        }
-
-        .download-btn {
-            background-color: var(--btn-bg);
-            color: var(--text-main);
-            border: 1px solid var(--btn-border);
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .download-btn:hover {
-            background-color: #2a3143;
-            border-color: #3d465c;
-        }
-
-        .download-btn:active {
-            background-color: var(--accent-color);
+            font-size: 20px;
             color: #fff;
-            border-color: var(--accent-color);
+        }
+
+        .info p {
+            margin: 5px 0 0;
+            font-size: 13px;
+            color: #b0b0b0;
+        }
+
+        .tag {
+            color: var(--fire-red);
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* زر التحميل الناري */
+        .btn-install {
+            background: linear-gradient(45deg, var(--dark-red), var(--fire-red));
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255, 60, 0, 0.4);
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-install:hover {
+            box-shadow: 0 0 25px var(--fire-red);
+            transform: scale(1.05);
+        }
+
+        /* الروابط المهمة */
+        .links-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .link-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: 15px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .link-box:hover {
+            background: var(--fire-red);
+            border-color: var(--fire-red);
         }
 
         footer {
             text-align: center;
-            padding: 30px 20px;
-            margin-top: 20px;
-            border-top: 1px solid var(--card-border);
-            color: var(--text-sub);
-            font-size: 14px;
-        }
-
-        footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 20px;
-            border-radius: 20px;
-            background: rgba(10, 132, 255, 0.1);
+            padding: 40px;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #222;
         }
     </style>
 </head>
 <body>
 
+    <div class="fire-bg"></div>
+
     <header>
-        <h1>متجر الحسني</h1>
+        <h1>متجر الحسني IPA</h1>
+        <div class="dev-info">المطور: @OM_G9</div>
     </header>
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('games')">الألعاب المعدلة</button>
-        <button class="tab-btn" onclick="switchTab('apps')">التطبيقات المميزة</button>
-    </div>
-
     <div class="container">
-        <div id="games" class="tab-content active">
-            <!-- سيتم توليد الألعاب هنا بواسطة الجافاسكربت -->
+        
+        <div class="links-section">
+            <a href="https://t.me/hassanyIPA" class="link-box">قناتنا تليجرام</a>
+            <a href="https://t.me/OM_G9" class="link-box">تواصل مع المطور</a>
         </div>
 
-        <div id="apps" class="tab-content">
-            <!-- سيتم توليد التطبيقات هنا بواسطة الجافاسكربت -->
-        </div>
+        <!-- الألعاب والتطبيقات يتم توليدها هنا -->
+        <div id="app-list"></div>
+
     </div>
 
     <footer>
-        <p>تم التطوير بواسطة <strong>الحسني</strong> © 2026</p>
-        <p>جميع حقوق الألعاب والتطبيقات محفوظة لمتجر الحسني</p>
-        <a href="https://t.me/hassanyIPA" target="_blank">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-left: 5px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.11.03-1.9 1.21-5.36 3.55-.51.35-.97.52-1.38.51-.45-.01-1.31-.25-1.95-.46-.78-.26-1.4-.4-1.35-.85.03-.23.35-.47.96-.72 3.75-1.63 6.25-2.71 7.5-3.23 3.57-1.48 4.31-1.74 4.8-1.75.11 0 .36.03.52.16.14.12.18.28.2.42-.02.05-.02.09-.02.14z"></path></svg>
-            اشترك في قناتنا على التليجرام
-        </a>
+        جميع الحقوق محفوظة للمطور الحسني © 2026
     </footer>
 
     <script>
-        // دالة التبديل بين الأقسام
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
-        }
-
-        // قاعدة بيانات الألعاب (اسم اللعبة، الوصف، رابط التحميل)
-        const gamesData = [
-            ["Minecraft", "فتح جميع الجلود والقوام (Skins/Textures)", "#"],
-            ["Subway Surfers", "قروش ومفاتيح لا نهائية", "#"],
-            ["GTA San Andreas", "قائمة غش كاملة وأسلحة لا تنتهي", "#"],
-            ["Clash of Clans", "ذهب وجواهر وإكسير غير محدود (سيرفر خاص)", "#"],
-            ["Among Us", "فتح جميع القبعات والحيوانات الأليفة", "#"],
-            ["Roblox", "ميزات القفز العالي والطيران واختراق الجدران", "#"],
-            ["Candy Crush Saga", "حركات غير محدودة وفتح جميع المستويات", "#"],
-            ["8 Ball Pool", "خط تصويب طويل جداً (Long Line)", "#"],
-            ["Hill Climb Racing", "أموال لا نهائية لترقية السيارات", "#"],
-            ["PUBG Mobile", "ثبات سلاح وتحسين جرافيك (نسخة آمنة)", "#"],
-            ["Free Fire", "زيادة مدى الرؤية وثبات التصويب", "#"],
-            ["Dream League Soccer", "أموال لا نهائية لشراء أفضل اللاعبين", "#"],
-            ["Traffic Rider", "فتح جميع الدراجات النارية السريعة", "#"],
-            ["Asphalt 9", "نيترو لا نهائي وسيارات مفتوحة", "#"],
-            ["Shadow Fight 2", "أموال وجواهر لا حصر لها", "#"],
-            ["Vector", "فتح جميع الحركات والمهارات", "#"],
-            ["Zombie Tsunami", "عملات ذهبية لترقية الزومبي", "#"],
-            ["Plants vs Zombies", "شمس غير محدودة لزراعة سريعة", "#"],
-            ["Temple Run 2", "قدرات خاصة مفتوحة وعملات لا تنتهي", "#"],
-            ["Fruit Ninja", "فتح جميع السكاكين والخلفيات", "#"],
-            ["Pou", "أموال لا نهائية لتخصيص الكائن", "#"],
-            ["Score! Hero", "طاقة وحياة غير محدودة", "#"],
-            ["Angry Birds 2", "جواهر لا تنتهي ونبلات قوية", "#"],
-            ["Modern Combat 5", "ذخيرة غير محدودة وتصويب دقيق", "#"],
-            ["FIFA Mobile", "فتح ميزات التحكم المتقدمة", "#"],
-            ["Hungry Shark World", "فتح جميع القروش العملاقة", "#"],
-            ["Dr. Driving", "فتح جميع السيارات والمهام", "#"],
-            ["Sniper 3D", "طاقة ذهبية وجواهر لا تنتهي", "#"],
-            ["Last Day on Earth", "بناء مجاني وصياغة بدون موارد", "#"],
-            ["Dead Trigger 2", "ذخيرة غير محدودة وأسلحة مطورة", "#"],
-            ["Injustice 2", "طاقة كاملة لضربات قوية", "#"],
-            ["Mortal Kombat", "ميزة الهجوم السريع دائماً", "#"],
-            ["Need for Speed No Limits", "نيترو غير محدود وسرعة قصوى", "#"],
-            ["Gangstar Vegas", "أموال وأسلحة VIP", "#"],
-            ["Real Racing 3", "فتح جميع حلبات السباق والسيارات", "#"],
-            ["Stickman Party", "فتح جميع الألعاب المصغرة", "#"],
-            ["Ludo King", "ميزات تحكم في النرد (نسخة معدلة)", "#"],
-            ["Evowars.io", "زيادة حجم اللاعب بسرعة", "#"],
-            ["Archero", "قتل بضربة واحدة ودفاع قوي", "#"],
-            ["Brawl Stars", "جواهر وصناديق مفتوحة", "#"],
-            ["Clash Royale", "بطاقات ماكس وموارد لا نهائية", "#"],
-            ["Hay Day", "تسريع عمليات الإنتاج", "#"],
-            ["SimCity BuildIt", "عملات وذهب غير محدود للبناء", "#"],
-            ["Gardenscapes", "نجوم وحركات لا تنتهي", "#"],
-            ["Homescapes", "فتح جميع الديكورات والنجوم", "#"],
-            ["Jetpack Joyride", "أموال وأدوات طيران متطورة", "#"],
-            ["Toca Life World", "فتح جميع الأماكن والشخصيات", "#"],
-            ["My Talking Tom", "أموال لا نهائية لشراء الأطعمة", "#"],
-            ["Head Ball 2", "ميزات تجميد الخصم وتكبير المرمى", "#"],
-            ["Rise of Kingdoms", "تسريع البناء والتدريب", "#"],
-            ["State of Survival", "طاقة لا تنتهي وهجمات قوية", "#"],
-            ["League of Legends: Wild Rift", "فتح جميع سكنات الأبطال", "#"],
-            ["Call of Duty Mobile", "تقليل الارتداد وزيادة الدقة", "#"],
-            ["Mobile Legends", "رؤية الخريطة كاملة (Map Hack)", "#"],
-            ["Farmville 2", "مفاتيح وموارد غير محدودة", "#"],
-            ["Township", "نقود لا تنتهي لتطوير المدينة", "#"],
-            ["Sonic Dash", "حلقات وجواهر لا نهائية", "#"],
-            ["Mini Militia", "طيران وذخيرة غير محدودة", "#"],
-            ["Dead Target", "أسلحة ذهبية وذخيرة لا تنتهي", "#"],
-            ["Into the Dead 2", "فتح جميع الأسلحة والكلاب", "#"],
-            ["CSR Racing 2", "وقود وذهب غير محدود", "#"],
-            ["Trial Xtreme 4", "فتح جميع الدراجات والمستويات", "#"],
-            ["Offroad Outlaws", "أموال لا نهائية لتعديل السيارات", "#"],
-            ["CarX Drift Racing", "فتح جميع سيارات الدرفت", "#"],
-            ["Real Steel World Robot Boxing", "روبوتات قوية مفتوحة", "#"],
-            ["Shadowgun Legends", "ميزات الدفاع والهجوم المطور", "#"],
-            ["World of Tanks Blitz", "تسريع تطوير الدبابات", "#"],
-            ["War Robots", "صواريخ ووقود لا ينتهي", "#"],
-            ["Bomber Friends", "فتح جميع الشخصيات والقنابل", "#"],
-            ["Soul Knight", "طاقة وجواهر لا تنتهي", "#"],
-            ["Terraria", "بناء مجاني وفتح جميع العناصر", "#"],
-            ["Stardew Valley", "أموال وطاقة لا نهائية", "#"],
-            ["Grid Autosport", "فتح جميع السيارات والسباقات المدفوعة", "#"],
-            ["Hitman Sniper", "فتح جميع القناصات المتقدمة", "#"],
-            ["Monument Valley 2", "فتح جميع المراحل المدفوعة", "#"],
-            ["Limbo", "فتح اللعبة كاملة مجاناً", "#"],
-            ["Geometry Dash", "فتح جميع الأيقونات والألوان", "#"],
-            ["Vector 2", "فتح جميع المعدات والمهارات", "#"],
-            ["Earn to Die 2", "وقود وأموال لا نهائية", "#"],
-            ["Stick War: Legacy", "جواهر وأحجار لا تنتهي", "#"],
-            ["Grow Castle", "ذهب وموارد تطوير القلعة", "#"],
-            ["Dino Hunter", "ذخيرة وأسلحة صيد قوية", "#"],
-            ["Deer Hunter", "طاقة وأسلحة متطورة", "#"],
-            ["Special Forces Group 2", "فتح جميع الأسلحة والجلود", "#"],
-            ["Critical Ops", "ميزات مساعدة في التصويب", "#"],
-            ["Pixel Gun 3D", "عملات وأسلحة خيالية", "#"],
-            ["Blockman Go", "جواهر وموارد مفتوحة", "#"],
-            ["Garena Free Fire Max", "تحسين الأداء والرؤية", "#"],
-            ["Honkai Impact 3rd", "طاقة ومهارات مفتوحة", "#"],
-            ["Genshin Impact", "تحسينات في الأداء (مود منيو)", "#"],
-            ["Farming Simulator 23", "فتح جميع الجرارات والمعدات", "#"],
-            ["Construction Simulator", "أموال لا نهائية للمشاريع", "#"],
-            ["Euro Truck Driver", "فتح جميع الشاحنات والخرائط", "#"],
-            ["Bus Simulator Indonesia", "أموال وتعديلات باصات مفتوحة", "#"],
-            ["Solar Smash", "فتح جميع الأسلحة والمدمرات الكوكبية", "#"]
+        const apps = [
+            ["Minecraft", "نسخة معدلة مع جميع الإضافات المفتوحة"],
+            ["PUBG Mobile", "ثبات سلاح وتحسين أداء احترافي"],
+            ["Spotify Premium", "استماع بدون إعلانات وتخطي لا محدود"],
+            ["Instagram Plus", "تحميل الصور والقصص بضغطة واحدة"],
+            ["YouTube ReVanced", "تشغيل في الخلفية وبدون إعلانات"],
+            ["WhatsApp Gold", "ميزات خصوصية متقدمة وإخفاء الظهور"],
+            ["Subway Surfers", "قروش ومفاتيح لا نهائية"],
+            ["CapCut Pro", "تصدير بدون علامة مائية ومؤثرات مفتوحة"],
+            ["PicsArt Gold", "فتح جميع أدوات التصميم المدفوعة"],
+            ["Among Us Mod", "فتح جميع السكنات والحيوانات الأليفة"]
         ];
 
-        // قاعدة بيانات التطبيقات (اسم التطبيق، الوصف، رابط التحميل)
-        const appsData = [
-            ["Spotify", "استماع بدون إعلانات وتخطي غير محدود", "#"],
-            ["YouTube ReVanced", "تشغيل في الخلفية وبدون إعلانات", "#"],
-            ["Netflix (Mod)", "مشاهدة الأفلام بدون اشتراك شهري", "#"],
-            ["Canva Pro", "فتح جميع القوالب والعناصر الاحترافية", "#"],
-            ["PicsArt Gold", "فتح جميع الفلاتر وأدوات التحرير", "#"],
-            ["CapCut Pro", "تصدير الفيديوهات بدون علامة مائية", "#"],
-            ["Kinemaster Pro", "فتح جميع الطبقات والمؤثرات", "#"],
-            ["Alight Motion Pro", "فتح جميع الفلاتر والحركات", "#"],
-            ["Truecaller Gold", "كشف هوية المتصل بدون إعلانات", "#"],
-            ["Duolingo Plus", "تعلم اللغات بدون إعلانات أوفلاين", "#"],
-            ["Picsay Pro", "فتح جميع أدوات تعديل الصور", "#"],
-            ["Lightroom Premium", "فتح جميع الإعدادات المسبقة", "#"],
-            ["InShot Pro", "فلاتر وانتقالات مدفوعة مفتوحة", "#"],
-            ["Snapchat (Mod)", "ميزات حفظ الصور بدون علم الطرف الآخر", "#"],
-            ["WhatsApp Gold", "ميزات الخصوصية وإخفاء الظهور", "#"],
-            ["Telegram Premium", "زيادة سرعة التحميل ورفع ملفات كبيرة", "#"],
-            ["TikTok (Mod)", "إزالة العلامة المائية عند التحميل", "#"],
-            ["Instagram (Mod)", "تحميل الصور والقصص بضغطة واحدة", "#"],
-            ["Deezer Premium", "تحميل الأغاني بجودة عالية جداً", "#"],
-            ["Anghami Plus", "استماع وتحميل الأغاني مجاناً", "#"],
-            ["VIVA Video Pro", "أدوات مونتاج احترافية مفتوحة", "#"],
-            ["ZArchiver Pro", "فك ضغط الملفات بسرعة وميزات إضافية", "#"],
-            ["ES File Explorer Pro", "مدير ملفات متقدم بدون إعلانات", "#"],
-            ["AdGuard", "حظر جميع إعلانات التطبيقات والمتصفح", "#"],
-            ["ExpressVPN", "فتح جميع الخوادم العالمية مجاناً", "#"],
-            ["NordVPN", "اتصال آمن وسريع بخوادم بريميوم", "#"],
-            ["Turbo VPN Pro", "فتح المواقع المحجوبة بسرعة فائقة", "#"],
-            ["WPS Office Pro", "فتح جميع ميزات تعديل المستندات", "#"],
-            ["CamScanner Pro", "مسح ضوئي بدون علامة مائية", "#"],
-            ["Remini Pro", "تحسين جودة الصور القديمة بلا حدود", "#"],
-            ["Facetune Pro", "تعديل ملامح الوجه باحترافية", "#"],
-            ["Photoshop Express", "أدوات فوتوشوب الجوال كاملة", "#"],
-            ["Retouch", "إزالة الأجسام غير المرغوبة من الصور", "#"],
-            ["Background Eraser", "إزالة الخلفية بضغطة واحدة", "#"],
-            ["Logo Maker Pro", "فتح جميع الشعارات الجاهزة", "#"],
-            ["PowerDirector Pro", "مونتاج 4K بدون علامة مائية", "#"],
-            ["VideoShow Pro", "مؤثرات فيديو سينمائية مفتوحة", "#"],
-            ["Wattpad Premium", "قراءة القصص بدون إعلانات وأوفلاين", "#"],
-            ["Storytel", "الاستماع للكتب الصوتية مجاناً", "#"],
-            ["Pocket Pro", "حفظ المقالات للقراءة بدون إنترنت", "#"],
-            ["Hotspot Shield", "تأمين الاتصال وفتح المواقع", "#"],
-            ["AppCloner Pro", "نسخ التطبيقات وفتح عدة حسابات", "#"],
-            ["Parallel Space Pro", "تشغيل حسابين في جهاز واحد", "#"],
-            ["Nova Launcher Prime", "تخصيص واجهة الجوال بميزات مدفوعة", "#"],
-            ["Zedge Premium", "نغمات وخلفيات حصرية مجانية", "#"],
-            ["TextNow", "رقم أمريكي مجاني للرسائل والمكالمات", "#"],
-            ["2ndLine", "إنشاء أرقام هواتف ثانوية بسهولة", "#"],
-            ["Puffin Browser Pro", "متصفح سريع جداً يدعم الفلاش", "#"],
-            ["UC Browser Ad-Free", "تصفح سريع بدون إعلانات مزعجة", "#"],
-            ["Mx Player Pro", "تشغيل الفيديوهات بجميع الصيغ", "#"],
-            ["VLC Premium", "ميزات متقدمة لتشغيل الميديا", "#"],
-            ["Shazam Encore", "التعرف على الأغاني بدون إعلانات", "#"],
-            ["SoundCloud Pulse", "ميزات إضافية للفنانين والمستمعين", "#"],
-            ["Tidal HiFi", "موسيقى بجودة استوديو أصلية", "#"],
-            ["TuneIn Radio Pro", "راديو عالمي بدون إعلانات تجارية", "#"],
-            ["Evernote Premium", "تدوين الملاحظات وتنظيم المهام", "#"],
-            ["Any.do Premium", "منظم يومي وقائمة مهام مفتوحة", "#"],
-            ["Todoist Pro", "إدارة المشاريع والمهام باحترافية", "#"],
-            ["Camly Pro", "فلاتر صور وتأثيرات ضوئية", "#"],
-            ["B612 Pro", "كاميرا سيلفي مع فلاتر مفتوحة", "#"],
-            ["Retrica Premium", "فلاتر كلاسيكية مميزة", "#"],
-            ["YouCam Makeup", "مكياج افتراضي وتعديل صور", "#"],
-            ["Snapseed Pro", "أدوات تعديل من جوجل (نسخة مطورة)", "#"],
-            ["VSCO Mod", "فتح جميع الفلاتر المدفوعة", "#"],
-            ["Reface Pro", "تبديل الوجوه في الفيديوهات باحترافية", "#"],
-            ["FaceApp Pro", "فلاتر العمر وتغيير الشكل كاملة", "#"],
-            ["BeautyPlus", "تجميل الصور التلقائي بدون قيود", "#"],
-            ["Video Leap", "مونتاج فيديو إبداعي مفتوح", "#"],
-            ["Mojo Pro", "إنشاء قصص انستقرام احترافية", "#"],
-            ["Canva Pro (Video)", "قوالب فيديو تيك توك مدفوعة", "#"],
-            ["FilmoraGo Pro", "مونتاج سريع وبسيط بدون علامة مائية", "#"],
-            ["Splice Pro", "محرر فيديو قوي وموسيقى مجانية", "#"],
-            ["Magisto Pro", "صناعة فيديو ذكية بالذكاء الاصطناعي", "#"],
-            ["Quik Pro", "مونتاج تلقائي من GoPro مفتوح", "#"],
-            ["Adobe Premiere Rush", "نسخة الجوال الاحترافية مفتوحة", "#"],
-            ["FL Studio Mobile", "صناعة الموسيقى والالحان باحترافية", "#"],
-            ["Walk Band Pro", "فتح جميع الآلات الموسيقية", "#"],
-            ["Groovepad Pro", "فتح جميع حزم الصوت والايقاعات", "#"],
-            ["Drum Pads 24", "ميزات تسجيل وفتح حزم الصوت", "#"],
-            ["SoloLearn Pro", "تعلم البرمجة مع شهادات مفتوحة", "#"],
-            ["Udemy (Mod)", "الوصول لبعض الكورسات التعليمية", "#"],
-            ["Coursera Pro", "ميزات تعلم متقدمة", "#"],
-            ["Memrise Pro", "تعلم الكلمات واللغات بذكاء", "#"],
-            ["Babbel Plus", "دروس لغات كاملة مفتوحة", "#"],
-            ["Rosetta Stone", "أشهر تطبيق لغات في العالم مفتوح", "#"],
-            ["Fitbit Premium", "خطط تمارين وصحة مخصصة", "#"],
-            ["MyFitnessPal Pro", "حساب السعرات الحرارية بدقة", "#"],
-            ["Strava Premium", "تتبع الجري وركوب الدراجات", "#"],
-            ["Calm Premium", "تمارين الاسترخاء والنوم العميق", "#"],
-            ["Headspace Pro", "تأمل وتخلص من التوتر مجاناً", "#"],
-            ["Sleep Cycle Pro", "تحليل جودة النوم ومنبه ذكي", "#"],
-            ["Flo Premium", "تتبع الدورة الشهرية والصحة النسائية", "#"],
-            ["Clue Plus", "توقعات صحية دقيقة", "#"],
-            ["Muslim Pro", "أوقات صلاة وقرآن بدون إعلانات", "#"],
-            ["Ayah Pro", "تطبيق قرآن كريم بميزات قراءة ليلية", "#"],
-            ["Scanner Radio Pro", "الاستماع لأجهزة اللاسلكي العالمية", "#"],
-            ["Flightradar24 Gold", "تتبع الطائرات بميزات متقدمة", "#"],
-            ["Windy Premium", "توقعات طقس دقيقة جداً للمحترفين", "#"],
-            ["SkyView Explore", "استكشاف النجوم والكواكب مفتوح", "#"]
-        ];
+        const listContainer = document.getElementById('app-list');
 
-        // دالة إنشاء الكروت تلقائياً
-        function generateCards(dataArray, containerId) {
-            const container = document.getElementById(containerId);
-            let htmlContent = "";
-            
-            dataArray.forEach(item => {
-                const name = item[0];
-                const desc = item[1];
-                const link = item[2]; // استبدل الرابط الحقيقي هنا لاحقاً
-                
-                htmlContent += `
+        apps.forEach(app => {
+            listContainer.innerHTML += `
                 <div class="app-card">
-                    <div class="app-info">
-                        <span class="store-tag">Hassany Store</span>
-                        <h3>${name}</h3>
-                        <p>${desc}</p>
+                    <div class="info">
+                        <span class="tag">HASSANY MOD</span>
+                        <h3>${app[0]}</h3>
+                        <p>${app[1]}</p>
                     </div>
-                    <a href="${link}" class="download-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        تثبيت
-                    </a>
-                </div>`;
-            });
-            
-            container.innerHTML = htmlContent;
-        }
-
-        // تشغيل الدالة لملء الأقسام عند فتح الصفحة
-        generateCards(gamesData, 'games');
-        generateCards(appsData, 'apps');
+                    <a href="https://app.iosgods.com/" class="btn-install" target="_blank">تثبيت IPA</a>
+                </div>
+            `;
+        });
     </script>
 </body>
 </html>
